@@ -1,0 +1,220 @@
+[
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_identifier",
+				"type": "bytes32"
+			}
+		],
+		"name": "generate_ticket",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_identifier",
+				"type": "bytes32"
+			},
+			{
+				"name": "_claim",
+				"type": "string"
+			},
+			{
+				"name": "_hint",
+				"type": "string"
+			}
+		],
+		"name": "setPolicy",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "random_number",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "setParticipant",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_ticket",
+				"type": "bytes32"
+			},
+			{
+				"name": "_claim",
+				"type": "string"
+			}
+		],
+		"name": "release_token",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "RM_Address",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "resourceOwner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_token",
+				"type": "bytes32"
+			},
+			{
+				"name": "_v",
+				"type": "uint8"
+			},
+			{
+				"name": "_r",
+				"type": "bytes32"
+			},
+			{
+				"name": "_s",
+				"type": "bytes32"
+			}
+		],
+		"name": "introspectAccessToken",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "_RM_Address",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "newParticipant",
+				"type": "address"
+			}
+		],
+		"name": "participantAdd",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "msg_sender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "access_token",
+				"type": "bytes32"
+			}
+		],
+		"name": "tokenRelease",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "identifier",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "ticket",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "msg_sender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "claim_hint",
+				"type": "string"
+			}
+		],
+		"name": "ticket_generated",
+		"type": "event"
+	}
+]
