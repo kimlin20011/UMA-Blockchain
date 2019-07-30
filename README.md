@@ -1,3 +1,28 @@
+# UMA_Blockchian專案實作
+
+## 系統角色與循序圖
+![](https://i.imgur.com/ozh2yUF.jpg)
+
+![](https://i.imgur.com/aKOUILw.jpg)
+
+## API
+
+### API(1)-deploy resource management contract 
+>HTTP Method: POST 
+>URL:http://localhost:3001/blockchain/deploy_RM 
+
+### API(2)-deploy Authorization contract 
+>HTTP Method: POST 
+>URL:http://localhost:3001/blockchain/deploy_Auth 
+
+### API(3)- register resource set
+>HTTP Method: POST 
+>URL:http://localhost:3001/resourceManage/registerResourceSet
+>>Body(x-www-form-urlencoded):   
+>>>name: string
+>>>scope: string
+
+
 # UMA智能合約設計
 
 ## 簡介 UMA Blockchain的使用範圍為大部分節點都需要先有
@@ -48,6 +73,10 @@
     - 擁有對應公鑰的人：有權力更新resource
     - 擁有對應claim的人：有權力存取protected resource
     - 什麼都沒有的人：有權力存取public resource
+- scope
+    - 透過變數，儲存scope的string，以供查詢
+    - 透過mapping的方法將scope分別對應到true或false
+
 
 ### 第三步：resource owner利用identifier註冊policy至authorization contract
 - 擁有對應私鑰的人(participant)可以update resource
@@ -102,6 +131,9 @@
     - Resource server不需要持有ticket
 - 使用web3.personal.sign加密的話，智能合約在ecrecover中一定要有prefix，message關鍵字
 
+
+## 參考資料
+* [eth-crypto](https://github.com/pubkey/eth-crypto)
 
 ###### tags: `OAuth2`
 
