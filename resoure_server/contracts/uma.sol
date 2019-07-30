@@ -29,7 +29,7 @@ contract Resource_management_contract {
     }
 
     //第二步， 註冊後的resource server開始註冊其需要被保護的資源
-    function register_service(string memory _name,string memory _scope) public isResourceServer(msg.sender) returns(bytes32) {
+    function registerResourceSet(string memory _name,string memory _scope) public isResourceServer(msg.sender) returns(bytes32) {
         bytes32 identifier = (keccak256(abi.encodePacked(now, _name, _scope)));
         resources[identifier] = ResourceSet(now, _name, _scope);
         identifierCheck[identifier] = true;
@@ -52,6 +52,10 @@ contract Resource_management_contract {
 
     function checkIdentifier(bytes32 _identifier) public view returns(bool){
         return identifierCheck[_identifier];
+    }
+
+    function checkScope(bytes32 _identifier) public view returns(string memory){
+        return resources[_identifier].scope;
     }
 
     function checkReresourceServer(address _resourceServer) public view returns(bool){
@@ -81,6 +85,8 @@ contract Authorization_contract {
     struct Policy_info{
         string claim;  //Claim：用來比對rqp所傳的claim是否與設定的相同
         string hint;    //Hint:若claim收集未完整時，需要給相對的提示
+        string scope;
+        mapping(string => bool)scopes; //透過mapping的方法將scope分別對應到true或false
         // address participant;  //participant: 最高權限使用者
     }
 
@@ -105,10 +111,23 @@ contract Authorization_contract {
 
     //step3: the user can set the policy such as hint , claim
     function setPolicy(bytes32 _identifier,string memory _claim,string memory _hint) public returns(bool) {
+        Resource_management_contract rm = Resource_management_contract(RM_Address);
+        require(rm.checkIdentifier(_identifier) == true ,"identifier or account invaild");
         require(msg.sender == resourceOwner,"Access deny, not owner"); //only creator can access
-        policies[_identifier] = Policy_info(_claim, _hint);
+        string memory _scope_ = rm.checkScope(_identifier);
+        policies[_identifier] = Policy_info(_claim, _hint,_scope_);
         return true;
     }
+
+    function setScopeindividual(bytes32 _identifier, string memory _scope) public returns(bytes32){
+        Resource_management_contract rm = Resource_management_contract(RM_Address);
+        require(rm.checkIdentifier(_identifier) == true ,"identifier or account invaild");
+        require(msg.sender == resourceOwner,"Access deny, not owner"); //only creator can access
+        Policy_info storage PI = policies[_identifier];
+        PI.scopes[_scope] = true;
+        return _identifier;
+    }
+
 
     //step5 resource server向contract請求ticket
     function generate_ticket(bytes32 _identifier) public{
@@ -160,5 +179,12 @@ contract Authorization_contract {
             return signer;
         }
 
+    }
+
+    function checkScopeByIdentifier(bytes32 _identifier,string memory _scope) public view returns(bool){
+        Resource_management_contract rm = Resource_management_contract(RM_Address);
+        require(rm.checkIdentifier(_identifier) == true ,"identifier or account invaild");
+        Policy_info storage PI = policies[_identifier];
+        return PI.scopes[_scope];
     }
 }

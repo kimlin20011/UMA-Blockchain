@@ -17,6 +17,43 @@
 		"constant": false,
 		"inputs": [
 			{
+				"name": "_ticket",
+				"type": "bytes32"
+			},
+			{
+				"name": "_claim",
+				"type": "string"
+			}
+		],
+		"name": "release_token",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "setParticipant",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
 				"name": "_identifier",
 				"type": "bytes32"
 			},
@@ -41,113 +78,26 @@
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "random_number",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_address",
-				"type": "address"
-			}
-		],
-		"name": "setParticipant",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_ticket",
+				"name": "_identifier",
 				"type": "bytes32"
 			},
 			{
-				"name": "_claim",
+				"name": "_scope",
 				"type": "string"
 			}
 		],
-		"name": "release_token",
+		"name": "setScopeindividual",
 		"outputs": [
 			{
 				"name": "",
-				"type": "bool"
+				"type": "bytes32"
 			}
 		],
 		"payable": false,
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "RM_Address",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "resourceOwner",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "_token",
-				"type": "bytes32"
-			},
-			{
-				"name": "_v",
-				"type": "uint8"
-			},
-			{
-				"name": "_r",
-				"type": "bytes32"
-			},
-			{
-				"name": "_s",
-				"type": "bytes32"
-			}
-		],
-		"name": "introspectAccessToken",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -216,5 +166,101 @@
 		],
 		"name": "ticket_generated",
 		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_identifier",
+				"type": "bytes32"
+			},
+			{
+				"name": "_scope",
+				"type": "string"
+			}
+		],
+		"name": "checkScopeByIdentifier",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_token",
+				"type": "bytes32"
+			},
+			{
+				"name": "_v",
+				"type": "uint8"
+			},
+			{
+				"name": "_r",
+				"type": "bytes32"
+			},
+			{
+				"name": "_s",
+				"type": "bytes32"
+			}
+		],
+		"name": "introspectAccessToken",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "random_number",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "resourceOwner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "RM_Address",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]

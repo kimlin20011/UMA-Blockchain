@@ -19,26 +19,22 @@
 		"type": "function"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [
 			{
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"name": "_scope",
-				"type": "string"
-			}
-		],
-		"name": "register_service",
-		"outputs": [
-			{
-				"name": "",
+				"name": "_identifier",
 				"type": "bytes32"
 			}
 		],
+		"name": "checkScope",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -53,6 +49,29 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"name": "_scope",
+				"type": "string"
+			}
+		],
+		"name": "registerResourceSet",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
