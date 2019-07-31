@@ -1,11 +1,11 @@
 "use strict";
 const fs = require('fs');
-const config = require('../config/config');
+const config = require('../../config/config');
 let gethWebsocketUrl = config.geth.gethWebsocketUrl;
 const Web3 = require('web3');
 // use the given Provider, e.g in Mist, or instantiate a new websocket provider
 const web3 = new Web3(Web3.givenProvider || gethWebsocketUrl);
-const unlockAccount = require('./unlock');
+const unlockAccount = require('../unlock');
 
 module.exports = async function registerResourceSet(data) {
     let RM_Abi = config.RM.abi;
@@ -24,6 +24,7 @@ module.exports = async function registerResourceSet(data) {
         console.log(`not unlock`);
         return;
     };
+
     return new Promise((resolve, reject) => {
         let result ={};
         RM.methods
