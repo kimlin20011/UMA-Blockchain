@@ -23,6 +23,7 @@ module.exports ={
     },
     geth: {
         account: `0xe8902cf406d7547fc3f69a2f463eb1463aa6b978`,
+        rqp_account: `0xe8902cf406d7547fc3f69a2f463eb1463aa6b978`,
         //暫時不用
         password: process.env.password,
         gethWebsocketUrl:`ws://localhost:8546`,

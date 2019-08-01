@@ -7,7 +7,7 @@ const Web3 = require('web3');
 const web3 = new Web3(Web3.givenProvider || gethWebsocketUrl);
 const unlockAccount = require('../unlock');
 
-module.exports = async function set_Scopeindividual(data) {
+module.exports = async function set_ScopeIndividual(data) {
     let Auth_Abi = config.Auth.abi;
     //取得目前geth中第一個account
     let nowAccount =config.geth.account;
@@ -28,7 +28,7 @@ module.exports = async function set_Scopeindividual(data) {
     return new Promise((resolve, reject) => {
         let result ={};
         let res = Auth.methods
-            .setScopeindividual(_identifier,_scope)
+            .setScopeIndividual(_identifier,_scope)
             .send({
                 from: nowAccount,
                 gas: 3000000

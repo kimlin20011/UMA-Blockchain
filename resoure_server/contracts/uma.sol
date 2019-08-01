@@ -37,7 +37,7 @@ contract Resource_management_contract {
         return identifier;
     }
 
-    function delete_resource() public isResourceServer(msg.sender){
+    function deleteResource() public isResourceServer(msg.sender){
 
     }
 
@@ -86,6 +86,7 @@ contract Authorization_contract {
         string claim;  //Claim：用來比對rqp所傳的claim是否與設定的相同
         string hint;    //Hint:若claim收集未完整時，需要給相對的提示
         string scope;
+        bool isSet;
         mapping(string => bool)scopes; //透過mapping的方法將scope分別對應到true或false
         // address participant;  //participant: 最高權限使用者
     }
@@ -115,11 +116,11 @@ contract Authorization_contract {
         require(rm.checkIdentifier(_identifier) == true ,"identifier or account invaild");
         require(msg.sender == resourceOwner,"Access deny, not owner"); //only creator can access
         string memory _scope_ = rm.checkScope(_identifier);
-        policies[_identifier] = Policy_info(_claim, _hint,_scope_);
+        policies[_identifier] = Policy_info(_claim, _hint,_scope_,true);
         return true;
     }
 
-    function setScopeindividual(bytes32 _identifier, string memory _scope) public returns(bytes32){
+    function setScopeIndividual(bytes32 _identifier, string memory _scope) public returns(bytes32){
         Resource_management_contract rm = Resource_management_contract(RM_Address);
         require(rm.checkIdentifier(_identifier) == true ,"identifier or account invaild");
         require(msg.sender == resourceOwner,"Access deny, not owner"); //only creator can access
@@ -130,21 +131,22 @@ contract Authorization_contract {
 
 
     //step5 resource server向contract請求ticket
-    function generate_ticket(bytes32 _identifier) public{
+    function generateTicket(bytes32 _identifier) public{
         Resource_management_contract rm = Resource_management_contract(RM_Address);
+        Policy_info storage PI = policies[_identifier];
         //要先檢查msg.sender(resource server)與identifier是否存在
         require(rm.checkIdentifier(_identifier) == true &&  rm.checkReresourceServer(msg.sender) == true ,"identifier or account invaild");
+        require(PI.isSet == true, "The policy has not been set");
         bytes32 ticket= (keccak256(abi.encodePacked(now, msg.sender, _identifier))) ;
         //用ticket mapping到identifier 以利查詢ticket是要對應到什麼resource
         tickets[ticket] = _identifier;
-        Policy_info storage PI = policies[_identifier];
         emit ticket_generated(_identifier, ticket,msg.sender, PI.hint);
     }
 
     //step8 智能合約驗證過後，將ticket交換成token，並透過event回傳至cilent
-    function release_token(bytes32 _ticket, string memory _claim) public returns(bool) {
+    function releaseToken(bytes32 _ticket, string memory _claim) public {
         //ticket mapping到identifier 以查詢ticket是要對應到什麼resource
-        require(tickets[_ticket] != 0, "invaild_ticket");
+        require(tickets[_ticket] != 0, "invaild ticket");
         Policy_info storage PI = policies[tickets[_ticket]];
         //(keccak256(abi.encodePacked(PI.claim)))
         if((keccak256(abi.encodePacked(PI.claim))) == (keccak256(abi.encodePacked(_claim)))){
@@ -152,9 +154,8 @@ contract Authorization_contract {
             random_number = uint(keccak256(abi.encodePacked(block.timestamp)))%100 +1;
             access_token[msg.sender] = (keccak256(abi.encodePacked(now, msg.sender, random_number))) ;
             emit tokenRelease(msg.sender, access_token[msg.sender]);
-            return true;
         }else{
-            return false;
+            require( 0==1 , "invaild claim");
         }
     }
 
