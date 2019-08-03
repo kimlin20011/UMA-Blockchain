@@ -73,7 +73,7 @@ contract Resource_management_contract {
 contract Authorization_contract {
     address public resourceOwner;
     address public RM_Address;
-    uint public random_number; //private
+    //uint public random_number; //private
 
     event participantAdd(bytes32 identifier,address newParticipant);
 
@@ -158,11 +158,13 @@ contract Authorization_contract {
         Policy_info storage PI = policies[tickets[_ticket]];
         bytes32 checkParticipantHash = keccak256(abi.encodePacked(tickets[_ticket], msg.sender)); //identifier,rqpAddress
         if(participantsOfIdentifier[checkParticipantHash] == true){
+            uint random_number = uint(keccak256(abi.encodePacked(block.timestamp)))%100 +1;
+            access_token[msg.sender] = (keccak256(abi.encodePacked(now, msg.sender, random_number))) ;
             emit tokenRelease(msg.sender, access_token[msg.sender]);
         }
         else if((keccak256(abi.encodePacked(PI.claim))) == (keccak256(abi.encodePacked(_claim)))){ //(keccak256(abi.encodePacked(PI.claim)))
             // Token透過msg.sender/timestamp/random number/隨機生成
-            random_number = uint(keccak256(abi.encodePacked(block.timestamp)))%100 +1;
+            uint random_number = uint(keccak256(abi.encodePacked(block.timestamp)))%100 +1;
             access_token[msg.sender] = (keccak256(abi.encodePacked(now, msg.sender, random_number))) ;
             emit tokenRelease(msg.sender, access_token[msg.sender]);
         }else{
