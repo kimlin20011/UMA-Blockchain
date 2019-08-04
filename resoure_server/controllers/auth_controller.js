@@ -4,6 +4,7 @@ const generate_ticket = require('../models/auth/generateTicket');
 const release_token = require('../models/auth/releaseToken');
 const check_scopeByIdentifier = require('../models/auth/checkScopeByIdentifier');
 const introspect_accessToken = require('../models/auth/introspectAccessToken');
+const set_ParticipantOfIdentifier = require('../models/auth/setParticipantOfIdentifier');
 
 module.exports = {
     async setPolicy(ctx) {
@@ -46,6 +47,13 @@ module.exports = {
         let res = {};
         let introspectAccessToken_result = await introspect_accessToken(formData);
         res = introspectAccessToken_result;
+        ctx.body = res;
+    },
+    async setParticipantOfIdentifier(ctx) {
+        let formData = ctx.request.body;
+        let res = {};
+        let setParticipantOfIdentifier_result = await set_ParticipantOfIdentifier(formData);
+        res = setParticipantOfIdentifier_result;
         ctx.body = res;
     },
 }

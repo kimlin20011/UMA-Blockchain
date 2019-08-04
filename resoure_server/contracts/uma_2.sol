@@ -75,16 +75,14 @@ contract Authorization_contract {
     address public RM_Address;
     //uint public random_number; //private
 
-    event participantAdd(bytes32 identifier,address newParticipant);
-
     mapping(bytes32 => bool) participantsOfIdentifier;
     mapping(address => bytes32) access_token;
     mapping(bytes32 => Policy_info) policies; //不同的identifier 應該要對應到不同的claim_info
     mapping(bytes32 => bytes32) tickets; //ticket => identifier
 
+    event participantAdd(bytes32 identifier,address newParticipant);
     event tokenRelease(address msg_sender,bytes32 access_token);
     event ticket_generated(bytes32 identifier, bytes32 ticket, address msg_sender,string claim_hint,bool isParticipant);
-    // event claimVerifyResult();
 
     struct Policy_info{
         string claim;  //Claim：用來比對rqp所傳的claim是否與設定的相同
@@ -95,7 +93,6 @@ contract Authorization_contract {
         // address participant;  //participant: 最高權限使用者
     }
 
-
     constructor(address _RM_Address) public{
         resourceOwner=msg.sender;
         RM_Address = _RM_Address;
@@ -103,7 +100,7 @@ contract Authorization_contract {
 
     //set policy
     //step3: resource owner利用identifier註冊policy至authorization contract
-    function setParticipant(bytes32 _identifier,address _address) public{
+    function setParticipantOfIdentifier(bytes32 _identifier,address _address) public{
         require(msg.sender == resourceOwner,"Access deny, not resourceOwner");//only creator can access
         bytes32 _hash= (keccak256(abi.encodePacked(_identifier, _address))) ;
         participantsOfIdentifier[_hash]= true;

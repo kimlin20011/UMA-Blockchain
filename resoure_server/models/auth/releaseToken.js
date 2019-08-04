@@ -11,6 +11,7 @@ module.exports = async function release_token(data) {
     let Auth_Abi = config.Auth.abi;
     //取得目前geth中第一個account
     let nowAccount =config.geth.account;
+    //let nowAccount =`0x6676be82eacd29fc91241c817b8414cc59e1e9d0`;
     let _ticket = data.ticket;
     let _claim = data.claim;
 

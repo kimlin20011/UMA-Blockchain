@@ -48,6 +48,25 @@
 	},
 	{
 		"constant": true,
+		"inputs": [
+			{
+				"name": "_identifier",
+				"type": "bytes32"
+			}
+		],
+		"name": "checkName",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [],
 		"name": "owner",
 		"outputs": [
