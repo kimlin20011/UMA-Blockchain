@@ -6,6 +6,7 @@ const Web3 = require('web3');
 // use the given Provider, e.g in Mist, or instantiate a new websocket provider
 const web3 = new Web3(Web3.givenProvider || gethWebsocketUrl);
 const unlockAccount = require('./unlock');
+const db = require('./connection_db');
 
 module.exports = async function deploy_resource_manage_contract(){
     let RM_Bytecode = config.RM.bytecode;
@@ -26,6 +27,7 @@ module.exports = async function deploy_resource_manage_contract(){
     }
 
     return new Promise((resolve, reject) => {
+        let result ={};
         RM
             .deploy({
                 data: RM_Bytecode
@@ -35,15 +37,34 @@ module.exports = async function deploy_resource_manage_contract(){
                 gas: 6000000
             })
             .on('error', function(error){
-                reject(`部署失敗${error}`);
+                result.info = error;
+                result.status = false;
+                reject(result);
             })
             .on("receipt", function(receipt) {
                 console.log(receipt);
                 // 更新合約介面
                 let RM_Address = receipt.contractAddress;
+                result.status = true;
+                result.address = RM_Address;
+                let metaData ={};
+                metaData.rm_address=RM_Address;
                 //將新生成的RM地址寫進.txt檔案
                 fs.writeFileSync('./RM_address.txt', RM_Address);
-                resolve(`RM contract 合約地址:${RM_Address}`);
+                let sql = `INSERT INTO contract SET ?`
+                db.query(sql, metaData , function (err, rows) {
+                    if (err) {
+                        //console.log(err);
+                        result.dbInfo = "資料庫更新失敗。";
+                        result.err = err;
+                        //console.log(result);
+                        reject(result);
+                    }
+                    result.dbInfo = "資料庫contract更新成功。";
+                    resolve(result);
+                });
+
+               // resolve(result);
             })
     });
 

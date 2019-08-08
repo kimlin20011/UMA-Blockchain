@@ -58,11 +58,6 @@
 				</div>
 			</div>
 
-	<!--		<h5 id="contractAddress">合約位址: </h5>
-			<input id="deployedContractAddressInput" type="text" placeholder="請輸入既有合約位址" />
-			<button id="loadDeployedContractButton">載入既有合約位址</button>
-			<button id="deployNewContractButton">部署新合約</button>-->
-
 			<br>
 
 			<div class="left-flex">
@@ -73,13 +68,10 @@
 				</div>
 				<div class="left-item">
 						<div class="right-col-2">
-							<h5 id="loginStatus" style="color: red">login status：You must log in</h5>
+							<h5 id="accountStatus" style="color: red">帳戶狀態：</h5>
 							<h5>Select Geth Account</h5>
-							<select id="whoami" ></select>
-							<h5 id="accountStatus"> </h5>
-							<h5>Password</h5>
-							<input id="accountPassword" type="text" placeholder="Password of account" /> <br/><br/>
-							<button id="geth_login_Button">login</button>
+							<select id="whoami" ></select><br>
+							<button id="whoamiButton">login</button>
 					</div>
 				</div>
 		    </div>
@@ -98,22 +90,23 @@
 						<h5 id="contractStatus" style="color: red">You must enter or deploy contract<br>(if you haven't deployed) first.</h5>
 						<h5>Step 1. Resource Management Contract</h5>
 						<input id="RM_contract_address" type="text" placeholder="RM contract address" />
-						<button id="RM_contract_address_button">confirm</button><br>
+						<button type="button" id="RM_contract_address_button">confirm</button><br>
 						<hr size="2px" align="center" width="100%">
 						<h5>or</h5>
-						<button id="deploy_RM_contract_button">deploy RM </button>
+						<button  type="button" id="deploy_RM_contract_button">deploy RM </button>
+						<p id ="rm_address">RM address:</p>
 						<br>
 						<h5>Step 2. Authorization Contract</h5>
 						<input id="Authorization_contract_address" type="text" placeholder="Authorization contract address" />
-						<button id="Authorization_contract_address_button">confirm</button><br>
+						<button type="button" id="Authorization_contract_address_button">confirm</button><br>
 						<hr size="2px" align="center" width="100%">
 						<h5>or</h5>
 						<input id="RM_contract_address_of_Authorization" type="text" placeholder="RM contract address" />
-						<button id="deploy_Authorization_contract_button">deploy Authorization </button>
+						<button type="button" id="deploy_Authorization_contract_button">deploy Authorization </button>
+						<p id="auth_address">Auth address:</p>
 					</div>
 				</div>
 			</div>
-
 
 			<br>
 		</div>
@@ -144,7 +137,7 @@
 
 
 	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
-	<script src="javascripts/index_frontend.js"></script>
+	<script src="javascripts/indexLogin.js"></script>
 
 	<!--
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

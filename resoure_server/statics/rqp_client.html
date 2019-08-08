@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Blockchain_UMA Resource Management</title>
+    <title>Blockchain_UMA client Page</title>
 
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="stylesheets/style.css">
@@ -23,7 +23,7 @@
         }
 
         body {
-            background-color: #c72c41;
+            background-color: purple;
         }
 
         .left-item {
@@ -48,7 +48,7 @@
     <img class="headimg" src="https://i.imgur.com/GlBja5L.png"/>
     <img class="headimg" src="https://i.imgur.com/gX1VYt0.png"/>
     <img class="headimg" src="https://i.imgur.com/noDq28C.png"/>
-    <h1>Blockchain_UMA Resource Management</h1>
+    <h1>Request Part Client Page</h1>
 </div>
 
 <div class="flex">
@@ -58,59 +58,89 @@
                 <img src="https://i.imgur.com/vUW22sE.png"/>
             </div>
             <div class="topic-item">
-                <h2>My Resource</h2>
+                <h2>Request Part</h2>
             </div>
         </div>
+
+        <!--		<h5 id="contractAddress">合約位址: </h5>
+                <input id="deployedContractAddressInput" type="text" placeholder="請輸入既有合約位址" />
+                <button id="loadDeployedContractButton">載入既有合約位址</button>
+                <button id="deployNewContractButton">部署新合約</button>-->
+
+        <br>
 
         <div class="left-flex">
             <div class="left-item">
                 <div class="left-col-2">
-                    <div class="title">Add resource set to contract</div>
+                    <div class="title"><br>Geth Login<br></div>
                 </div>
             </div>
             <div class="left-item">
                 <div class="right-col-2">
-                    <p>Resource Name:</p>
-                    <input id="inputResourceName" type="text" placeholder="ex: 'TV' " /> <br/>
-                    <p>Scope:</p>
-                    <input id="inputScope" type="text" placeholder="ex: 'read,write' " /> <br/>
-                    <br>
-                    <button id="confirm_resource_set_button">add resource</button>
+                    <h5 id="loginStatus" style="color: red">login status：You must log in</h5>
+                    <h5>Select Geth Account</h5>
+                    <select id="whoami" ></select>
+                    <h5 id="accountStatus"> </h5>
+                    <h5>Password</h5>
+                    <input id="accountPassword" type="text" placeholder="Password of account" /> <br/><br/>
+                    <button id="geth_login_Button">login</button>
                 </div>
             </div>
         </div>
+
+        <br>
+
+
+        <div class="left-flex">
+            <div class="left-item">
+                <div class="left-col-2">
+                    <div class="title"><br>Access Resources<br></div>
+                </div>
+            </div>
+            <div class="left-item">
+                <div class="right-col-2">
+                    <button id="requestResourceButton">request resources</button>
+                    <hr size="2px" align="center" width="100%">
+                    <p id="AuthorizationContractAddress" style="color: darkblue"><b>Authorization Contract Address：</b></p>
+                    <p id="isParticipant" style="color: darkblue"><b>isParticipant?：</b></p>
+                    <p>(If is,you don't have to enter claim)</p>
+                    <p id="claimHint" style="color: darkblue"><b>claim hint:</b></p>
+                    <input id="claimInput" type="text" placeholder="claim" /> <br/><br/>
+                    <button id="claim_confirm_Button">confirm</button>
+                    <p id="accessResult" ><b>access result:</b></p>
+                </div>
+            </div>
+        </div>
+
 
         <br>
 
         <div class="left-flex">
             <div class="table" style="margin: 0px auto;">
 
-            <table border= 3 bordercolor="#a0c6e5" style="border-collapse:collapse;" align="center" width="95%">
-                <caption><b>My Resource</b></caption>
-                <br>
-                <thead>
-                <tr>
-                    <th>Resource name</th>
-                    <th>identifier</th>
-                    <th>registerTime</th>
-                    <th>policy</th>
-                    <th>cooperator</th>
-                <tr>
-                </thead>
-                <tbody id="resourceBodyid">
-                <tr id="123">
-                    <td>TV</td>
-                    <td>0x0a52c101ee30cfb0385a411a14928216d6f06a0662ba5e252911c05f250b1c09</td>
-                    <td>1564893240</textarea></td>
-                    <td><button id="setPolicyButton">setPolicyButton</button></td>
-                    <td><button id="shareResourceButton">shareResourceButton</button></td>
-                </tr>
-                </tbody>
-            </table><br>
+                <table border= 3 bordercolor="#a0c6e5" style="border-collapse:collapse;" align="center" width="95%">
+                    <caption><b>IoT resource</b></caption>
+                    <br>
+                    <thead>
+                    <tr>
+                        <th>Temperature</th>
+                        <th>Humidity</th>
+                    <tr>
+                    </thead>
+                    <tbody id="resourceID">
+                    <tr id="temHum">
+                        <td>24.05</td>
+                        <td>33</td>
+                    </tr>
+                    </tbody>
+                </table><br>
             </div>
         </div>
 
+
         <br>
+
+
 
     </div>
 

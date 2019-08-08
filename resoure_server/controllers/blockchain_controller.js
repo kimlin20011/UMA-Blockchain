@@ -1,12 +1,12 @@
 const deploy_RM = require('../models/deploy_RM');
 const deploy_Auth = require('../models/deploy_Auth');
-//const getAccounts = require('../models/getAccounts');
+const getAccounts = require('../models/getAccounts');
 
 module.exports = {
     async deploy_RM_contract(ctx) {
-        // let formData = ctx.request.body
+        let formData = ctx.request.body
         let res = {};
-        let deploy_result =  await deploy_RM();
+        let deploy_result =  await deploy_RM(formData);
         res = deploy_result;
 
         ctx.body = res;
@@ -19,5 +19,10 @@ module.exports = {
         res = deploy_result;
 
         ctx.body = res;
+    },
+    async getAccounts(ctx) {
+        // let formData = ctx.request.body
+        let accounts =  await getAccounts();
+        ctx.body = accounts;
     },
 };

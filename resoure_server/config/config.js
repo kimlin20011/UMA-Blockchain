@@ -26,8 +26,14 @@ module.exports ={
         rqp_account: `0xe8902cf406d7547fc3f69a2f463eb1463aa6b978`,
         //暫時不用
         password: process.env.password,
-        gethWebsocketUrl:`ws://localhost:8546`,
+        gethWebsocketUrl:`ws://localhost:8545`,
         //keystoreDir:`C:\\Users\\nccu\\implement\\chain_new\\data\\keystore`
         keystoreDir:`/Users/nccu/Documents/implement/chain_new/data/keystore`
+    },
+    mysql:{
+        host: process.env.HOST,
+        user: process.env.DATABASE_USER,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE
     }
 };

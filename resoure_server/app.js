@@ -11,7 +11,7 @@ const routers = require('./routers/index');
 const app = new Koa();
 
 //const staticPath = './views';
-const staticPath = './views';
+const staticPath = './statics';
 
 // http logger
 app.use(koaLogger());
@@ -26,9 +26,9 @@ app.use(bodyParser());
 }));*/
 
 //set up landing page of website
-/*app.use(static(
+app.use(static(
     path.join( __dirname,  staticPath)
-))*/
+))
 
 // initial router middleware
 app.use(routers.routes()).use(routers.allowedMethods());
