@@ -8,4 +8,4 @@ module.exports = {
         res = encryptToken_result;
         ctx.body = res;
     },
-}
+};

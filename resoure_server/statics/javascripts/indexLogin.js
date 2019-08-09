@@ -7,7 +7,7 @@ let RM_contract_address_button = $('#RM_contract_address_button');
 let deploy_RM_contract_button = $('#deploy_RM_contract_button');
 let Authorization_contract_address_button = $('#Authorization_contract_address_button');
 let deploy_Authorization_contract_button = $('#deploy_Authorization_contract_button');
-
+let changeToRMButton = $('#changeToRMButton');
 
 let RM_contract_address = $('#RM_contract_address');
 let Authorization_contract_address = $('#Authorization_contract_address');
@@ -113,8 +113,6 @@ deploy_Authorization_contract_button.on('click', function () {
         }
     });
 });
-
-
 /*
 function islogined() {
     if (IoTLoginedMap.get(nowAccount) === `succeeded`){
@@ -182,5 +180,16 @@ $(function() {
         RM_contract_address_button.attr('style', 'background-color: #4364a1' );
     });
 });
+
+
+$(function() {
+    changeToRMButton.mouseover(function () {
+        changeToRMButton.attr('style', 'background-color: #608de2' );
+    });
+    changeToRMButton.mouseout(function () {
+        changeToRMButton.attr('style', 'background-color: #4364a1' );
+    });
+});
+
 
 
