@@ -52,7 +52,7 @@ module.exports = async function registerResourceSet(data) {
                 metaData.rmAddress=rmAddress;
 
 
-                let sql = `INSERT INTO resourceSet SET ?`
+                let sql = `INSERT INTO resourceSet SET ?`;
                 db.query(sql, metaData , function (err, rows) {
                     if (err) {
                         //console.log(err);

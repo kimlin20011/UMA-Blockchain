@@ -6,8 +6,8 @@ let policyClaimButton = $('#policyClaimButton');
 
 let claim_input = $('#claim_input');
 let hint_input = $('#hint_input');
-let rqpAddress_input = $('#resourceSetTable');
-let Identifier = $('#Identifier');
+let rqpAddress_input = $('#rqpAddress_input');
+let identifierText = $('#Identifier');
 
 
 
@@ -27,7 +27,7 @@ let identifier = url.searchParams.get("identifier");
 log(`nowAccount：${nowAccount} \nAuth_address:${Auth_address}\nidentifier:${identifier}` );
 
 
-Identifier.html(`identifier:<br> ${identifier}`)
+identifierText.html(`identifier:<br> ${identifier}`);
 
 function log(...inputs) {
     for (let input of inputs) {
@@ -37,28 +37,54 @@ function log(...inputs) {
         logger.html(input + '\n' + logger.html())
     }
 }
-//按下deploy_RM_contract_button時
-confirm_resource_set_button.on('click', function () {
+
+//按下policyClaimButton時
+policyClaimButton.on('click', function () {
     waitTransactionStatus();
 
-    $.post('/resourceManage/registerResourceSet', {
-        rmAddress: RM_address,
+    $.post('/auth/setPolicy', {
+        authAddress: Auth_address,
         account: nowAccount,
         password: password,
-        name:inputResourceName.val(),
-        scope:inputScope.val(),
+        identifier:identifier,
+        hint:hint_input.val(),
+        claim:claim_input.val(),
     }, function (result) {
         if(result.status === true){
             log(result);
             doneTransactionStatus();
         }else{
-            log(`registerResource失敗`);
+            log(`setPolicy失敗`);
             log(result);
             doneTransactionStatus();
         }
     });
 });
 
+
+//按下rqpAddressButton時
+rqpAddressButton.on('click', function () {
+    waitTransactionStatus();
+
+    $.post('/auth/setParticipantOfIdentifier', {
+        authAddress: Auth_address,
+        account: nowAccount,
+        password: password,
+        identifier:identifier,
+        rqpAddress:rqpAddress_input.val(),
+    }, function (result) {
+        if(result.status === true){
+            log(result);
+            doneTransactionStatus();
+        }else{
+            log(`setPolicy失敗`);
+            log(result);
+            doneTransactionStatus();
+        }
+    });
+});
+
+/*
 refreshResourceSetButton.on('click', function () {
 
     //移除所有表格細項
@@ -70,9 +96,9 @@ refreshResourceSetButton.on('click', function () {
         let rows =result.info;
         console.log(result);
         rows.forEach(function(row) {
-            /*let policyHref = `policy.html?Auth_address=${Auth_address}&nowAccount=${nowAccount}&password=${password}&identifier=${row.identifier}`;
+            /!*let policyHref = `policy.html?Auth_address=${Auth_address}&nowAccount=${nowAccount}&password=${password}&identifier=${row.identifier}`;
             let cooperatorHref = `rqp_client.html?Auth_address=${Auth_address}&nowAccount=${nowAccount}&password=${password}&identifier=${row.identifier}`;
-*/
+*!/
             let policyButton =`<button value="${row.identifier}" id="policyButton">policy</button>` ;
             //let cooperatorButton = `<button value="${row.identifier}" id=cooperatorButton">cooperator</button>`;
             $('#resourceSetTable tr:last').after(`<tr><th>${row.name}</th><th>${row.identifier}</th><th>${row.scope}</th><th>${row.registerTime}</th><th>${policyButton}</th></tr>`);
@@ -102,6 +128,7 @@ $.post('/db/getResourceSet', {
         $('#resourceSetTable tr:last').after(`<tr><th>${row.name}</th><th>${row.identifier}</th><th>${row.scope}</th><th>${row.registerTime}</th><th>${policyButton}</th></tr>`);
     });
 });
+*/
 
 function waitTransactionStatus() {
     $('#accountStatus').html('帳戶狀態：<b style="color: blue">(等待區塊鏈交易驗證中...)</b>')
@@ -114,20 +141,20 @@ function doneTransactionStatus() {
 
 // mouseover
 $(function() {
-    confirm_resource_set_button.mouseover(function () {
-        confirm_resource_set_button.attr('style', 'background-color: #608de2' );
+    policyClaimButton.mouseover(function () {
+        policyClaimButton.attr('style', 'background-color: #608de2' );
     });
-    confirm_resource_set_button.mouseout(function () {
-        confirm_resource_set_button.attr('style', 'background-color: #4364a1' );
+    policyClaimButton.mouseout(function () {
+        policyClaimButton.attr('style', 'background-color: #4364a1' );
     });
 });
 
 $(function() {
-    refreshResourceSetButton.mouseover(function () {
-        refreshResourceSetButton.attr('style', 'background-color: #608de2' );
+    rqpAddressButton.mouseover(function () {
+        rqpAddressButton.attr('style', 'background-color: #608de2' );
     });
-    refreshResourceSetButton.mouseout(function () {
-        refreshResourceSetButton.attr('style', 'background-color: #4364a1' );
+    rqpAddressButton.mouseout(function () {
+        rqpAddressButton.attr('style', 'background-color: #4364a1' );
     });
 });
 
