@@ -1,25 +1,33 @@
 'use strict';
 
-let confirm_resource_set_button = $('#confirm_resource_set_button');
-let refreshResourceSetButton = $('#refreshResourceSetButton');
+let rqpAddressButton = $('#rqpAddressButton');
+let policyClaimButton = $('#policyClaimButton');
 
-let inputResourceName = $('#inputResourceName');
-let inputScope = $('#inputScope');
-let resourceSetTable = $('#resourceSetTable');
+
+let claim_input = $('#claim_input');
+let hint_input = $('#hint_input');
+let rqpAddress_input = $('#resourceSetTable');
+let Identifier = $('#Identifier');
+
+
 
 let logger = $('#logger');
 //let nowAccount = "";
 // let password = `nccutest`;
 
 // 參考 https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+//解譯url中的參數
 let url_string = window.location.href;
 let url = new URL(url_string);
 
 let nowAccount = url.searchParams.get("nowAccount");
-let RM_address = url.searchParams.get("RM_address");
 let Auth_address = url.searchParams.get("Auth_address");
 let password = url.searchParams.get("password");
-log(`nowAccount：${nowAccount}\nRM_address:${RM_address} \nAuth_address:${Auth_address}` );
+let identifier = url.searchParams.get("identifier");
+log(`nowAccount：${nowAccount} \nAuth_address:${Auth_address}\nidentifier:${identifier}` );
+
+
+Identifier.html(`identifier:<br> ${identifier}`)
 
 function log(...inputs) {
     for (let input of inputs) {
@@ -53,6 +61,7 @@ confirm_resource_set_button.on('click', function () {
 
 refreshResourceSetButton.on('click', function () {
 
+    //移除所有表格細項
     $("#resourceSetTable").find("tr:gt(0)").remove();
 // 查看是否有新的resource資料存入
     $.post('/db/getResourceSet', {

@@ -24,18 +24,5 @@ module.exports = async function registerResourceSet(data) {
         });
 
     })
-
-    /*    console.log(req.query.id);
-        let sql=`SELECT * FROM IdMapContract WHERE 1`;
-        db.query(sql,function(err,ressql){
-            if(!err){
-                //console.log(ressql);
-                res.json(ressql);
-            }
-            else{
-                res.status(500).json({err:"DBError"});
-            }
-        });*/
-
 };
 
