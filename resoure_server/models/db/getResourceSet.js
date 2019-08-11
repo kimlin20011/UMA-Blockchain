@@ -3,7 +3,7 @@ const db = require('../connection_db');
 
 
 
-module.exports = async function registerResourceSet(data) {
+module.exports = async function getResourceSet(data) {
 
     let rmAddress = data.address;
 

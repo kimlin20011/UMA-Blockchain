@@ -2,6 +2,8 @@
 
 let rqpAddressButton = $('#rqpAddressButton');
 let policyClaimButton = $('#policyClaimButton');
+let refreshPolicyButton = $('#refreshPolicyButton');
+
 
 
 let claim_input = $('#claim_input');
@@ -84,51 +86,55 @@ rqpAddressButton.on('click', function () {
     });
 });
 
-/*
-refreshResourceSetButton.on('click', function () {
-
+refreshPolicyButton.on('click', function () {
     //移除所有表格細項
-    $("#resourceSetTable").find("tr:gt(0)").remove();
-// 查看是否有新的resource資料存入
-    $.post('/db/getResourceSet', {
-        address:RM_address.toString(),
+    $("#policyTable").find("tr:gt(0)").remove();
+    $("#rqpTable").find("tr:gt(0)").remove();
+    // 查看是否有新的policy或rqp資料存入
+    $.post('/db/getPolicy', {
+        identifier:identifier,
     }, function (result) {
-        let rows =result.info;
-        console.log(result);
-        rows.forEach(function(row) {
-            /!*let policyHref = `policy.html?Auth_address=${Auth_address}&nowAccount=${nowAccount}&password=${password}&identifier=${row.identifier}`;
-            let cooperatorHref = `rqp_client.html?Auth_address=${Auth_address}&nowAccount=${nowAccount}&password=${password}&identifier=${row.identifier}`;
-*!/
-            let policyButton =`<button value="${row.identifier}" id="policyButton">policy</button>` ;
-            //let cooperatorButton = `<button value="${row.identifier}" id=cooperatorButton">cooperator</button>`;
-            $('#resourceSetTable tr:last').after(`<tr><th>${row.name}</th><th>${row.identifier}</th><th>${row.scope}</th><th>${row.registerTime}</th><th>${policyButton}</th></tr>`);
-            //$('#resourceSetTable tr:last').after(`<tr><th>${row.name}</th><th>${row.identifier}</th><th>${row.scope}</th><th>${row.registerTime}</th><th><button onclick="javascript:location.href= ${policyHref}" value="${row.identifier}" id="policyButton">policy</button></th><th>${cooperatorButton}</th></tr>`);
-
-        });
+        if(result.status === true) {
+            log(`refreshPolicy成功`);
+            let rqpRows = result.rqpInfo;
+            let policyRows = result.policyInfo;
+            //console.log(result);
+            policyRows.forEach(function (row) {
+                $('#policyTable tr:last').after(`<tr><th>${row.policy_identifier}</th><th>${row.claim}</th><th>${row.hint}</th></tr>`);
+            });
+            rqpRows.forEach(function (row) {
+                $('#rqpTable tr:last').after(`<tr><th>${row.rqp_address}</th></tr>`);
+            });
+        }else{
+            log(`refreshPolicy失敗`);
+            log(result);
+        }
     });
 });
 
-//執行跳轉到policy頁，並帶入參數
-$('body').on('click', '#policyButton', function(){
-    let policyIdentifier = $(this).attr("value");
-    alert(`換到policy頁\nidentifier:${policyIdentifier}`);
-    window.location.href=`policy.html?Auth_address=${Auth_address}&nowAccount=${nowAccount}&password=${password}&identifier=${policyIdentifier}`;
-});
 
 
-// 查看是否有新的resource資料存入
-$.post('/db/getResourceSet', {
-    address:RM_address.toString(),
+
+// 查看是否有新的policy或rqp資料存入
+$.post('/db/getPolicy', {
+    identifier:identifier,
 }, function (result) {
-    let rows =result.info;
-    console.log(result);
-    rows.forEach(function(row) {
-        let policyButton =`<button value="${row.identifier}" id="policyButton">policy</button>` ;
-        //let cooperatorButton = `<button value="${row.identifier}" id=cooperatorButton">cooperator</button>`;
-        $('#resourceSetTable tr:last').after(`<tr><th>${row.name}</th><th>${row.identifier}</th><th>${row.scope}</th><th>${row.registerTime}</th><th>${policyButton}</th></tr>`);
-    });
+    if(result.status === true) {
+        log(`refreshPolicy成功`);
+        let rqpRows = result.rqpInfo;
+        let policyRows = result.policyInfo;
+        //console.log(result);
+        policyRows.forEach(function (row) {
+            $('#policyTable tr:last').after(`<tr><th>${row.policy_identifier}</th><th>${row.claim}</th><th>${row.hint}</th></tr>`);
+        });
+        rqpRows.forEach(function (row) {
+            $('#rqpTable tr:last').after(`<tr><th>${row.rqp_address}</th></tr>`);
+        });
+    }else{
+        log(`refreshPolicy失敗`);
+        log(result);
+    }
 });
-*/
 
 function waitTransactionStatus() {
     $('#accountStatus').html('帳戶狀態：<b style="color: blue">(等待區塊鏈交易驗證中...)</b>')
@@ -155,6 +161,16 @@ $(function() {
     });
     rqpAddressButton.mouseout(function () {
         rqpAddressButton.attr('style', 'background-color: #4364a1' );
+    });
+});
+
+
+$(function() {
+    refreshPolicyButton.mouseover(function () {
+        refreshPolicyButton.attr('style', 'background-color: #608de2' );
+    });
+    refreshPolicyButton.mouseout(function () {
+        refreshPolicyButton.attr('style', 'background-color: #4364a1' );
     });
 });
 

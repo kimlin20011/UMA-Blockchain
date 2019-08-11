@@ -104,8 +104,7 @@
 
         <div class="left-flex">
             <div class="table"  style="margin: 0px auto;">
-
-                <table border= 3 bordercolor="#a0c6e5" width="95%" style="border-collapse:collapse" >
+                <table id="policyTable" border= 3 bordercolor="#a0c6e5" width="95%" style="border-collapse:collapse" >
                     <caption><b>Exist Policy</b></caption>
                     <br>
                     <thead>
@@ -113,16 +112,20 @@
                         <th>Identifier</th>
                         <th>Claim</th>
                         <th>Hint</th>
+                    <tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table><br>
+                <table id="rqpTable" border= 3 bordercolor="#a0c6e5" width="95%" style="border-collapse:collapse" >
+                    <caption><b>Exist Policy</b></caption>
+                    <br>
+                    <thead>
+                    <tr>
                         <th>Request Party</th>
                     <tr>
                     </thead>
-                    <tbody id="policyId">
-                    <tr id="policyTr">
-                        <th>0x0a52c101ee30cfb0385a411a14928216d6f06a0662ba5e252911c05f250b1c09</th>
-                        <th>123@gmail</th>
-                        <th>gmail</th>
-                        <th>0xe8902cf406d7547fc3f69a2f463eb1463aa6b978</th>
-                    </tr>
+                    <tbody>
                     </tbody>
                 </table><br>
                 <button id="refreshPolicyButton" style="margin-bottom: 20px; margin-left: 20px;">refresh</button>
