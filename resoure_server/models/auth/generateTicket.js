@@ -20,10 +20,11 @@ module.exports = async function generateTicket(data) {
     if (!unlock) {
         console.log(`not unlock`);
         return;
-    };
+    }
 
     return new Promise((resolve, reject) => {
         let result ={};
+        console.log(data);
         Auth.methods
             .generateTicket(data.identifier,data.rqpAddress)
             .send({

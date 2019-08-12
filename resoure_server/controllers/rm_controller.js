@@ -6,23 +6,35 @@ module.exports = {
     async registerResourceSet(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let deploy_result =  await registerResourceSet(formData);
-        res = deploy_result;
-        ctx.body = res;
+        try {
+            let deploy_result = await registerResourceSet(formData);
+            res = deploy_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
     async checkIdentifier(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let checkIdentifier_result =  await checkIdentifier(formData);
-        res = checkIdentifier_result;
-        ctx.body = res;
+        try {
+            let checkIdentifier_result =  await checkIdentifier(formData);
+            res = checkIdentifier_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
     async checkScope(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let checkScope_result =  await checkScope(formData);
-        res = checkScope_result;
-        ctx.body = res;
+        try {
+            let checkScope_result =  await checkScope(formData);
+            res = checkScope_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
 
 };

@@ -10,50 +10,78 @@ module.exports = {
     async setPolicy(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let setPolicy_result = await set_Policy(formData);
-        res = setPolicy_result;
-        ctx.body = res;
+        try{
+            let setPolicy_result = await set_Policy(formData);
+            res = setPolicy_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
     async setScopeIndividual(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let setScopeindividual_result = await set_Scopeindividual(formData);
-        res = setScopeindividual_result;
-        ctx.body = res;
+        try{
+            let setScopeindividual_result = await set_Scopeindividual(formData);
+            res = setScopeindividual_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
     async generateTicket(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let generateTicket_result = await generate_ticket(formData);
-        res = generateTicket_result;
-        ctx.body = res;
+        try{
+            let generateTicket_result = await generate_ticket(formData);
+            res = generateTicket_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
     async releaseToken(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let releaseToken_result = await release_token(formData);
-        res = releaseToken_result;
-        ctx.body = res;
+        try{
+            let releaseToken_result = await release_token(formData);
+            res = releaseToken_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
     async checkScopeByIdentifier(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let checkScopeByIdentifier_result = await check_scopeByIdentifier(formData);
-        res = checkScopeByIdentifier_result;
-        ctx.body = res;
+        try{
+            let checkScopeByIdentifier_result = await check_scopeByIdentifier(formData);
+            res = checkScopeByIdentifier_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
     async introspectAccessToken(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let introspectAccessToken_result = await introspect_accessToken(formData);
-        res = introspectAccessToken_result;
-        ctx.body = res;
+        try{
+            let introspectAccessToken_result = await introspect_accessToken(formData);
+            res = introspectAccessToken_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
     async setParticipantOfIdentifier(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let setParticipantOfIdentifier_result = await set_ParticipantOfIdentifier(formData);
-        res = setParticipantOfIdentifier_result;
-        ctx.body = res;
+        try{
+            let setParticipantOfIdentifier_result = await set_ParticipantOfIdentifier(formData);
+            res = setParticipantOfIdentifier_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
-}
+};

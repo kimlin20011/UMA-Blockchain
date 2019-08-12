@@ -6,23 +6,32 @@ module.exports = {
     async deploy_RM_contract(ctx) {
         let formData = ctx.request.body
         let res = {};
-        let deploy_result =  await deploy_RM(formData);
-        res = deploy_result;
-
-        ctx.body = res;
+        try{
+            let deploy_result =  await deploy_RM(formData);
+            res = deploy_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
     async deploy_Auth_contract(ctx) {
         let formData = ctx.request.body;
         let res = {};
-
-        let deploy_result =  await deploy_Auth(formData);
-        res = deploy_result;
-
-        ctx.body = res;
+        try{
+            let deploy_result =  await deploy_Auth(formData);
+            res = deploy_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
     async getAccounts(ctx) {
         // let formData = ctx.request.body
-        let accounts =  await getAccounts();
-        ctx.body = accounts;
+        try{
+            let accounts =  await getAccounts();
+            ctx.body = accounts;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
 };

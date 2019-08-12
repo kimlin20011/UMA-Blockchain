@@ -1,6 +1,5 @@
 const router = require('koa-router')();
-const offchain = require('../controllers/offchain');
+const offChain = require('../controllers/offchain_controller');
 
 module.exports = router
-    .get(`/syncIoTDevice`,offchain.iot_sub_token)
-    .post('/SAG', offchain.send_access_grant);
+    .post('/requestResource', offChain.requestResource);

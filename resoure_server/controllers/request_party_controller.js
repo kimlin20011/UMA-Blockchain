@@ -4,8 +4,12 @@ module.exports = {
     async encryptToken(ctx) {
         let formData = ctx.request.body;
         let res = {};
-        let encryptToken_result =  await encryp_token(formData);
-        res = encryptToken_result;
-        ctx.body = res;
+        try {
+            let encryptToken_result =  await encryp_token(formData);
+            res = encryptToken_result;
+            ctx.body = res;
+        } catch(error) {
+            ctx.body = error;
+        }
     },
 };
