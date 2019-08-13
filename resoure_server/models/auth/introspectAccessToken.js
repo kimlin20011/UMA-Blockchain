@@ -12,10 +12,12 @@ module.exports = async function introspect_accessToken(data) {
     let Auth_Address = fs.readFileSync('./Auth_address.txt').toString();
     let Auth = new web3.eth.Contract(Auth_Abi,Auth_Address);
 
+    let signature = data.signature;
+
     //parse signature to vrs
-    let signature = JSON.parse(fs.readFileSync('./signedMessage.json', 'utf-8'));
+    //let signature = JSON.parse(fs.readFileSync('./signedMessage.json', 'utf-8'));
     let vrs = EthCrypto.vrs.fromString(signature.toString());
-    console.log(vrs)
+    console.log(vrs);
 
     return new Promise((resolve, reject) => {
         let result ={};

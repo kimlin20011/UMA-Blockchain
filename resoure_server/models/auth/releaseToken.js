@@ -10,13 +10,16 @@ const unlockAccount = require('../unlock');
 module.exports = async function release_token(data) {
     let Auth_Abi = config.Auth.abi;
     //取得目前geth中第一個account
-    let nowAccount =config.geth.account;
+    //let nowAccount =config.geth.account;
     //let nowAccount =`0x6676be82eacd29fc91241c817b8414cc59e1e9d0`;
     let _ticket = data.ticket;
     let _claim = data.claim;
+    let nowAccount = data.account;
+    let password = data.password;
+    let Auth_Address = data.authAddress;
 
-    let password = config.geth.password;
-    let Auth_Address = fs.readFileSync('./Auth_address.txt').toString();
+    //let password = config.geth.password;
+    //let Auth_Address = fs.readFileSync('./Auth_address.txt').toString();
     let Auth = new web3.eth.Contract(Auth_Abi,Auth_Address);
 
     // 解鎖
@@ -37,6 +40,7 @@ module.exports = async function release_token(data) {
             .on("receipt", function(receipt) {
                 result.msg_sender = receipt.events.tokenRelease.returnValues.msg_sender;
                 result.access_token = receipt.events.tokenRelease.returnValues.access_token;
+                result.status = true;
                 let result_event = JSON.stringify(result);
                 fs.writeFileSync('./releaseToken.json', result_event);
                 //送出驗證求取伺服器ip授權層序

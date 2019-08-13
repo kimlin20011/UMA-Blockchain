@@ -37,7 +37,8 @@ module.exports = async function generateTicket(data) {
                 result.ticket = receipt.events.ticket_generated.returnValues.ticket;
                 result.isParticipant = receipt.events.ticket_generated.returnValues.isParticipant;
                 result.msg_sender = receipt.events.ticket_generated.returnValues.msg_sender;
-
+                result.status = true;
+                result.authAddress = Auth_Address;
                 let result_event = JSON.stringify(result);
                 fs.writeFileSync('./tickets.json', result_event);
                 //送出驗證求取伺服器ip授權層序

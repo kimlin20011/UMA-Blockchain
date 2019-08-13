@@ -38,7 +38,7 @@ module.exports = async function getIdentifierByName(data) {
                     }
                     result.status = true;
                     result.body = body;
-                    resolve(body);
+                    resolve(result);
                 });
             }
         });

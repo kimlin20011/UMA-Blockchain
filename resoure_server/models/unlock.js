@@ -12,7 +12,7 @@ module.exports = async function unlockAccount(nowAccount,password) {
     return web3.eth.personal
         .unlockAccount(nowAccount, password, 9999999)
         .then(function(result) {
-            console.log(result);
+         //   console.log(result);
             console.log("account已解鎖");
             return true;
         })
