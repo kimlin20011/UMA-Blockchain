@@ -34,7 +34,6 @@ function log(...inputs) {
     }
 }
 
-
 // 當按下登入按鍵時
 whoamiButton.on('click', async function () {
     nowAccount = whoami.val();

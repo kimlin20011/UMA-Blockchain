@@ -3,4 +3,5 @@ const db = require('../controllers/db_controller');
 
 module.exports = router
     .post(`/getResourceSet`,db.getResourceSet)
-    .post(`/getPolicy`,db.getPolicy);
+    .post(`/getPolicy`,db.getPolicy)
+    .get(`/getResourceName`,db.getResourceName);
