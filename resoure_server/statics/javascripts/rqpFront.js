@@ -72,7 +72,7 @@ requestResourceButton.on('click', function () {
     waitTransactionStatus();
     let res = {};
     if (nowAccount!= null && nowName != null){
-        $.post('/offchain/requestResource', {
+        $.get('/offchain/requestResource', {
             rqpAddress:nowAccount,
             name:nowName,
         }, function (result) {
@@ -141,16 +141,42 @@ function encryptToken (res){
         password:password,
     }, function (result) {
         if(result.status === true) {
+            result.token = res.access_token;
             log(`簽名成功`);
             log(`簽名：${result.signature}`);
-            doneTransactionStatus();
+            requestByToken(result);
         }else{
             log(`簽名失敗`);
             log(result);
             doneTransactionStatus();
         }
     });
+}
 
+
+function requestByToken(data){
+    let formData = {};
+    formData.rqpAddress= nowAccount;
+    formData.name=nowName;
+    $.ajax({
+        url: "/offchain/requestResource",
+        type: 'GET',
+        data: formData,
+        // Fetch the stored token from localStorage and set in the header
+        headers: {
+            "authorization": data.signature,
+            "token": data.token,
+        },
+        error : function(err) {
+            console.log('Error!', err);
+            doneTransactionStatus();
+        },
+        success: function(data) {
+            log('Success!');
+            log('signature', data);
+            doneTransactionStatus();
+        }
+    });
 }
 
 

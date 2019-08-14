@@ -4,7 +4,7 @@ const request = require('request');
 
 
 
-module.exports = async function getIdentifierByName(data) {
+module.exports = async function requestResource(data) {
     let name = data.name;
     return new Promise((resolve, reject) => {
         let result = {};
