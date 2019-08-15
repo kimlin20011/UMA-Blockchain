@@ -4,9 +4,10 @@ const introspectAccessToken = require('../models/auth/introspectAccessToken');
 module.exports = {
     async requestResource(ctx) {
         let formData = ctx.query;
-        let authData = {}
+        let authData = {};
         authData.signature = ctx.headers.authorization;
         authData.token = ctx.headers.token;
+        authData.rqpAddress = ctx.query.rqpAddress;
         let res = {};
         console.log(`signature`);
         console.log(authData.signature);

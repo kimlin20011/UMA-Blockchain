@@ -7,20 +7,148 @@
 
 ## API
 
-### API(1)-deploy resource management contract 
+### resource management contract
+#### API(1)-deploy resource management contract 
 >HTTP Method: POST 
 >URL:http://localhost:3001/blockchain/deploy_RM 
 
-### API(2)-deploy Authorization contract 
+#### API(2)-deploy Authorization contract 
 >HTTP Method: POST 
 >URL:http://localhost:3001/blockchain/deploy_Auth 
 
-### API(3)- register resource set
+#### API(3)- register resource set
 >HTTP Method: POST 
 >URL:http://localhost:3001/resourceManage/registerResourceSet
 >>Body(x-www-form-urlencoded):   
 >>>name: string
 >>>scope: string
+>>>RM_Address:string
+>>>password:string
+>>>account:string
+
+#### API(4)- checkIdentifier
+>HTTP Method: GET 
+>URL:http://localhost:3001/resourceManage/checkIdentifier
+>>Body(x-www-form-urlencoded):   
+>>>identifier: string
+>>>> return:bool
+
+#### API(5)-checkScope
+>HTTP Method: GET 
+>URL:http://localhost:3001/resourceManage/checkIdentifier
+>>Body(x-www-form-urlencoded):   
+>>>identifier: string
+>>>>return:string
+
+
+### Authorization contract
+#### API(1)-setPolicy
+>HTTP Method: POST 
+>URL:http://localhost:3001/auth/setPolicy 
+>>>Body(x-www-form-urlencoded):   
+>>>authAddress: address
+>>>account: address
+>>>password: string
+>>>identifier: string
+>>>claim: string
+>>>hint: string
+
+#### API(2)-setScopeindividual
+>HTTP Method: POST 
+>URL:http://localhost:3001/auth/setScopeindividual 
+>>>Body(x-www-form-urlencoded):   
+>>>identifier: string
+>>>scope: string
+
+#### API(3)-setParticipantOfIdentifier
+>HTTP Method: POST 
+>URL:http://localhost:3001/auth/setParticipantOfIdentifier 
+>>Body(x-www-form-urlencoded):
+>>>authAddress: address
+>>>account: address
+>>>password: string 
+>>>identifier: bytes32
+>>>rqpAddress: address
+>>>>>>> return event:participantAdd
+>>>>identifier:bytes32
+>>>>newParticipant:address
+
+#### API(4)-generateTicket
+>HTTP Method: POST 
+>URL:http://localhost:3001/auth/generateTicket 
+>>>Body(x-www-form-urlencoded):   
+>>>identifier: string
+>>>rqpAddress: address
+>>>> return event：ticket_generated
+>>>>identifier:bytes32
+>>>>ticket:bytes32
+>>>>msg_sender:address
+>>>>claim_hint:string
+>>>>isParticipant:bool
+
+#### API(4)-releaseToken
+>HTTP Method: POST 
+>URL:http://localhost:3001/auth/releaseToken 
+>>>Body(x-www-form-urlencoded):   
+>>>ticket: bytes32
+>>>claim:string
+>>>authAddress: bytes32
+>>>password:string
+>>>account:string
+>>>>>>> return event：tokenRelease
+>>>>access_token:bytes32
+>>>>msg_sender:address
+
+#### API(5)- checkScopeByIdentifier
+>HTTP Method: GET 
+>URL:http://localhost:3001/auth/checkScopeByIdentifier 
+>>>Body(x-www-form-urlencoded):   
+>>>identifier: string
+>>>scope:string
+
+#### API(6)- introspectAccessToken
+* 內部要將token以rqp的私鑰簽名後，拆成v,r,s 驗證是否經過rqp簽章
+>HTTP Method: GET 
+>URL:http://localhost:3001/auth/introspectAccessToken 
+>>>Body(x-www-form-urlencoded):   
+>>>signature: bytes32
+
+#### API(7)-setParticipant
+
+### Request server API
+
+#### API(1)-encryptToken
+>HTTP Method: POST 
+>URL:http://localhost:3001/rqp/encryptToken 
+>>Body(x-www-form-urlencoded):   
+>>>token: string
+>>>account: string
+>>>password: string
+>>>> return : signature
+
+
+
+
+### resource server API
+#### API(1)-getResourceSet
+>HTTP Method: POST (GET)
+>URL:http://localhost:3001/db/getResourceSet
+>>>Body(x-www-form-urlencoded):   
+>>>rmAddress: address
+
+#### API(2)-getPolicy
+>HTTP Method: POST (GET)
+>URL:http://localhost:3001/db/getPolicy
+>>>Body(x-www-form-urlencoded):   
+>>>identifier: string
+
+
+#### API(3)-requestResource
+>HTTP Method: POST (GET)
+>>URL:http://localhost:3001/offchain/requestResource
+>>>Body(x-www-form-urlencoded):   
+>>>rqpAddress: string
+>>>name: string
 
 
 # UMA智能合約設計
@@ -49,6 +177,11 @@
 - resource owner 負責加入resource server之權限
 
 ## Authorization contract
+* rqp使用者權限部分
+    * 使用identifier與rqp address值hash過後，mapping到true
+    * 若rqp被授權使用特定的identifier(resource set)，在使用ticket兌換token的時候就不需要輸入正確的claim
+    * 反之只需要設定正確的claim
+* client在接受`generateTicket`的返回event時可以確認`isParticipant`部分是否為 `true`，若為`true`，則可以直接交換為token
 
 ## 每個步驟詳細細節與
 
@@ -130,6 +263,88 @@
     - Resource server不需要知道rqp與RO之身分
     - Resource server不需要持有ticket
 - 使用web3.personal.sign加密的話，智能合約在ecrecover中一定要有prefix，message關鍵字
+
+
+
+## MySql部分
+* 建立database(UMA)
+```sql=
+CREATE DATABASE UMA DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+```
+* 新增新的database賬戶，這邊以帳戶：test、密碼: nccutest來舉例
+```sql=
+create user 'test'@'localhost' IDENTIFIED BY 'nccutest';
+Query OK, 0 rows affected (0.00 sec)
+```
+
+* 之後在讓test帳戶，擁有更改UMA（目的）資料庫的權限
+```sql=
+GRANT ALL PRIVILEGES ON UMA.* TO 'test'@'localhost';
+
+FLUSH PRIVILEGES;
+```
+* 之後在離開MySQL使用新的帳戶登入
+```shell=
+mysql -u test -p
+```
+
+## 建立table
+### contract 
+* rm_address
+* auth_address
+```sql=
+CREATE TABLE contract (
+    rm_address VARCHAR(30) NOT NULL PRIMARY KEY,
+    auth_address  VARCHAR(30));
+```
+
+
+### resourceSet
+* identifier(PK)
+* rm_address(FK)
+* scope   VARCHAR(30)
+* registerTime int(12)  
+```sql=
+CREATE TABLE resourceSet (
+    identifier VARCHAR(30) NOT NULL PRIMARY KEY,
+    rmAddress VARCHAR(30) NOT NULL,
+    scope VARCHAR(30),
+    registerTime  int(12),
+    FOREIGN KEY (rmAddress) REFERENCES contract (rm_address));
+```
+
+### policy
+* identifier (fk)
+* claim  VARCHAR(30)
+* hint  VARCHAR(30)
+```sql=
+CREATE TABLE policy (
+    policy_identifier VARCHAR(30) NOT NULL,
+    claim VARCHAR(30),
+    hint  VARCHAR(30),
+    FOREIGN KEY (policy_identifier) REFERENCES resourceSet (identifier));
+```
+
+### requestParty
+* rqp_identifier (fk)
+* rqp_address
+```sql=
+CREATE TABLE requestParty (
+    rqp_identifier VARCHAR(30) NOT NULL,
+    rqp_address VARCHAR(30) NOT NULL,
+    FOREIGN KEY (rqp_identifier) REFERENCES resourceSet (identifier));
+```
+
+
+
+* 查看table
+```
+DESCRIBE contract;
+
+select * from contract;
+```
+
+
 
 
 ## 參考資料

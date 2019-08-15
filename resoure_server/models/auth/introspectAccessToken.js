@@ -23,7 +23,7 @@ module.exports = async function introspect_accessToken(data) {
         let result ={};
         Auth.methods.introspectAccessToken(data.token,vrs.v,vrs.r,vrs.s).call()
             .then((return_result) => {
-                result.isSignedAccountVaild = (return_result.toLowerCase() === config.geth.rqp_account.toLowerCase());
+                result.isSignedAccountValid = (return_result.toLowerCase() === data.rqpAddress.toLowerCase());
                 result.signedAccount = return_result;
                 //console.log(`signed account: ${return_result}`);
                 resolve(result);

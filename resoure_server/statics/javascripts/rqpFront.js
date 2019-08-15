@@ -174,6 +174,9 @@ function requestByToken(data){
         success: function(data) {
             log('Success!');
             log('signature', data);
+            if (data.isSignedAccountValid === true){
+                $('#isSignedAccountValid').html('<b style="color: blue">UMA Blockchain Authorization Status：TRUE</b>')
+            }
             doneTransactionStatus();
         }
     });
