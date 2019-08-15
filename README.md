@@ -1,7 +1,7 @@
 # UMA_Blockchian專案實作
 
 ## 系統角色與循序圖
-![](https://i.imgur.com/ozh2yUF.jpg)
+![](https://i.imgur.com/lZ9f4j2.png)
 
 ![](https://i.imgur.com/aKOUILw.jpg)
 
@@ -144,11 +144,14 @@
 
 
 #### API(3)-requestResource
->HTTP Method: POST (GET)
+>HTTP Method: GET
 >>URL:http://localhost:3001/offchain/requestResource
->>>Body(x-www-form-urlencoded):   
->>>rqpAddress: string
->>>name: string
+>>headers(x-www-form-urlencoded): 
+>>>authorization : string
+>>>token : string
+>>>>Body(x-www-form-urlencoded):   
+>>>>>rqpAddress: string
+>>>>>name: string
 
 
 # UMA智能合約設計
