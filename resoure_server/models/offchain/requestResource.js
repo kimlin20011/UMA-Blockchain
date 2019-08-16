@@ -36,7 +36,7 @@ module.exports = async function requestResource(data) {
                     if (err) {
                         reject(err);
                     }
-                    result.status = true;
+                    result.status = body.status;
                     result.body = body;
                     resolve(result);
                 });

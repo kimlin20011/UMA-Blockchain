@@ -1,9 +1,15 @@
 # UMA_Blockchian專案實作
 
+* https://github.com/kimlin20011/UMA-Blockchain
+
+## 需要修改事項
+* 動筆研究目標與實驗設計
+    * 邊動筆邊思考實驗設計部分
+
 ## 系統角色與循序圖
 ![](https://i.imgur.com/lZ9f4j2.png)
 
-![](https://i.imgur.com/aKOUILw.jpg)
+![](https://i.imgur.com/oqjPSBN.png)
 
 ## API
 

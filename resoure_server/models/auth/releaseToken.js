@@ -27,7 +27,7 @@ module.exports = async function release_token(data) {
     if (!unlock) {
         console.log(`not unlock`);
         return;
-    };
+    }
 
     return new Promise((resolve, reject) => {
         let result ={};

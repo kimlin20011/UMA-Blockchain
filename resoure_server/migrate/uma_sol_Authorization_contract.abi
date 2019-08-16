@@ -155,7 +155,7 @@
 		"type": "function"
 	},
 	{
-		"constant": true,
+		"constant": false,
 		"inputs": [
 			{
 				"name": "_token",
@@ -175,14 +175,9 @@
 			}
 		],
 		"name": "introspectAccessToken",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
+		"outputs": [],
 		"payable": false,
-		"stateMutability": "view",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -260,6 +255,38 @@
 			}
 		],
 		"name": "ticket_generated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "identifier",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "scope",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "rqpAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "iat",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "exp",
+				"type": "uint256"
+			}
+		],
+		"name": "introspectEvent",
 		"type": "event"
 	}
 ]

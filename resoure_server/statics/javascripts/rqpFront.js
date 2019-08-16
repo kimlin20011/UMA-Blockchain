@@ -1,7 +1,6 @@
 'use strict';
 let whoami = $('#whoami');
 let whoamiButton = $('#whoamiButton');
-
 let selectResourceName = $('#selectResourceName');
 let selectNamButton = $('#selectNamButton');
 let requestResourceButton = $('#requestResourceButton');
@@ -10,7 +9,7 @@ let requestResourceButton = $('#requestResourceButton');
 
 let logger = $('#logger');
 //let nowAccount = "";
- let password = `nccutest`;
+let password = `nccutest`;
 
 // 參考 https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
 //解譯url中的參數
@@ -175,13 +174,24 @@ function requestByToken(data){
             log('Success!');
             log('signature', data);
             if (data.isSignedAccountValid === true){
-                $('#isSignedAccountValid').html('<b style="color: blue">UMA Blockchain Authorization Status：TRUE</b>')
+                let iat = convertUNIX_time(data.iat);
+                let exp = convertUNIX_time(data.exp);
+                $('#isSignedAccountValid').html('<b style="color: blue">UMA Blockchain Authorization Status：TRUE</b>');
+                $('#iat').text(`permission time: ${iat}`);
+                $('#expire').text(`permission expire time: ${exp}`);
             }
             doneTransactionStatus();
         }
     });
 }
 
+function convertUNIX_time(unixTime){
+    let dt = new Date(unixTime*1000);
+    let hr = dt.getHours();
+    let m = "0" + dt.getMinutes();
+    let s = "0" + dt.getSeconds();
+    return dt+':' +hr+ ':' + m.substr(-2) + ':' + s.substr(-2);
+}
 
 // mouseover
 $(function() {
