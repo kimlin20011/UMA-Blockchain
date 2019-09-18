@@ -20,7 +20,7 @@ module.exports = async function encrypt_token(data) {
                 res.status = true;
                /* let data = JSON.stringify(result);
                 fs.writeFileSync('./signedMessage.json', data);*/
-               // console.log(`signed_message:${data}`);
+            //    console.log(`signed_message:${data}`);
                 resolve(res);
             })
             .catch(function(err) {

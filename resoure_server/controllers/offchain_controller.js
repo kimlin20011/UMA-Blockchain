@@ -9,10 +9,10 @@ module.exports = {
         authData.token = ctx.headers.token;
         authData.rqpAddress = ctx.query.rqpAddress;
         let res = {};
-        console.log(`signature`);
-        console.log(authData.signature);
-        console.log(`token`);
-        console.log(authData.token);
+        // console.log(`signature`);
+        // console.log(authData.signature);
+        // console.log(`token`);
+        // console.log(authData.token);
         if(authData.signature != null){
             try {
                 console.log(`introspectAccessToken`);

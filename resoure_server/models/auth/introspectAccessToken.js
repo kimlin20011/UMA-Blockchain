@@ -25,7 +25,7 @@ module.exports = async function introspect_accessToken(data) {
     //parse signature to vrs
     //let signature = JSON.parse(fs.readFileSync('./signedMessage.json', 'utf-8'));
     let vrs = EthCrypto.vrs.fromString(signature.toString());
-    console.log(vrs);
+    // console.log(vrs);
 
     return new Promise((resolve, reject) => {
         let result ={};
@@ -42,7 +42,7 @@ module.exports = async function introspect_accessToken(data) {
                 result.exp = receipt.events.introspectEvent.returnValues.exp;
                 result.status = true;
                 result.isSignedAccountValid = true;
-                console.log(result);
+                // console.log(result);
                 //  let result_event = JSON.stringify(result);
                 //   event introspectEvent(bytes32 indexed identifier,string scope,address rqpAddress,uint iat, uint exp);
                 //   fs.writeFileSync('./releaseToken.json', result_event);
