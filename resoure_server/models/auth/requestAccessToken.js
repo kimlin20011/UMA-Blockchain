@@ -40,6 +40,8 @@ module.exports = async function requestAccessToken(data) {
             .on("receipt", function(receipt) {
                 result.msg_sender = receipt.events.tokenRelease.returnValues.msg_sender;
                 result.access_token = receipt.events.tokenRelease.returnValues.access_token;
+                result.iat = receipt.events.tokenRelease.returnValues.iat;
+                result.exp = receipt.events.tokenRelease.returnValues.exp;
                 result.status = true;
                 let result_event = JSON.stringify(result);
                 fs.writeFileSync('./releaseToken.json', result_event);

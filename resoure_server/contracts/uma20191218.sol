@@ -1,6 +1,6 @@
 //這個合約還沒經過但測試，修改token過期時間之檢查
 //編譯指令
-//solcjs -o ../migrate --bin --abi uma20191218.sol
+//solcjs -o ../migrate --bin --abi uma_4.sol
 pragma solidity ^0.5.2;
 
 contract Resource_management_contract {
@@ -83,8 +83,6 @@ contract Authorization_contract {
     event participantAdd(bytes32 identifier,address newParticipant);
     event tokenRelease(address msg_sender,bytes32 access_token,uint iat, uint exp);
     event ticket_generated(bytes32 identifier, bytes32 ticket, address msg_sender,string claim_hint,bool isParticipant);
-    event introspectEvent(bytes32 indexed identifier,string scope,address rqpAddress);
-    event introspectFailed(string condition);
     
     struct Policy_info{
         string claim;  //Claim：用來比對rqp所傳的claim是否與設定的相同
@@ -151,7 +149,7 @@ contract Authorization_contract {
     //step8 智能合約驗證過後，將ticket交換成token，並透過event回傳至cilent
     function requestAccessToken(bytes32 _ticket, string memory _claim) public {
         //ticket mapping到identifier 以查詢ticket是要對應到什麼resource
-        require(ticket_identifier[_ticket] != 0, "invaild ticket");
+        require(ticket_identifier[_ticket] != 0, "invalid_grant");
         Policy_info storage PI = policies[ticket_identifier[_ticket]];
         bytes32 checkParticipantHash = keccak256(abi.encodePacked(ticket_identifier[_ticket], msg.sender)); //identifier,rqpAddress
         if(participantsOfIdentifier[checkParticipantHash] == true){
@@ -171,7 +169,7 @@ contract Authorization_contract {
             delete ticket_identifier[_ticket];//發布token後刪除ticket
             emit tokenRelease(msg.sender, access_token[msg.sender],now,token_vaildTime[access_token[msg.sender]] );
         }else{
-            require( 0==1 , "invaild claim");
+            require( 0==1 , "request_denied");
         }
     }
     
@@ -181,12 +179,11 @@ contract Authorization_contract {
         uint8 _v,
         bytes32 _r,
         bytes32 _s) public view returns(bool){
-        require(_token != 0, "invaildToken");
-        require(token_identifier[_token] !=0,"invaildToken");
+        require(_token != 0, "invalid_token");
+        require(token_identifier[_token] !=0,"invalid_token");
         
         //檢查token是否已經過期
         if(now > token_vaildTime[_token]){
-            //emit introspectFailed("token expire");
             return false;
         }
         
@@ -197,13 +194,8 @@ contract Authorization_contract {
         );
         
         if(access_token[signer] != 0 && access_token[signer] == _token){
-           //Policy_info storage PI = policies[token_identifier[_token]];
-           //emit introspectEvent(token_identifier[_token],PI.scope,msg.sender);
            return true;
-           //event introspectEvent(bytes32 indexed identifier,string scope,address rqpAddress,uint iat, uint exp);
         }else{
-           //require(1 == 0, "invaild_signer");
-           //invaild_signer
            return false;
         }
     }
