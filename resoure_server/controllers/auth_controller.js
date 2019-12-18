@@ -34,12 +34,13 @@ module.exports = {
         let res = {};
         try{
             // 為授權
-            // ctx.status = err.status || 401;
             // ctx.respond
             // ctx.body = err.message;
             // ctx.app.emit("error", err, ctx);
+            ///
             let requestPermission_result = await request_Permission(formData);
             res = requestPermission_result;
+            ctx.status = 401;
             ctx.body = res;
         } catch(error) {
             ctx.body = error;
