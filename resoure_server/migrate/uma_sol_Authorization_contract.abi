@@ -3,39 +3,16 @@
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_identifier",
+				"name": "_ticket",
 				"type": "bytes32"
 			},
 			{
-				"name": "_address",
-				"type": "address"
-			}
-		],
-		"name": "setParticipantOfIdentifier",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_identifier",
-				"type": "bytes32"
-			},
-			{
-				"name": "_scope",
+				"name": "_claim",
 				"type": "string"
 			}
 		],
-		"name": "setScopeIndividual",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bytes32"
-			}
-		],
+		"name": "requestAccessToken",
+		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -52,7 +29,25 @@
 				"type": "address"
 			}
 		],
-		"name": "generateTicket",
+		"name": "requestPermission",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_identifier",
+				"type": "bytes32"
+			},
+			{
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "setParticipantOfIdentifier",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -89,38 +84,6 @@
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_ticket",
-				"type": "bytes32"
-			},
-			{
-				"name": "_claim",
-				"type": "string"
-			}
-		],
-		"name": "releaseToken",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "RM_Address",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
 				"name": "_identifier",
 				"type": "bytes32"
 			},
@@ -129,53 +92,13 @@
 				"type": "string"
 			}
 		],
-		"name": "checkScopeByIdentifier",
+		"name": "setScopeIndividual",
 		"outputs": [
 			{
 				"name": "",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "resourceOwner",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_token",
-				"type": "bytes32"
-			},
-			{
-				"name": "_v",
-				"type": "uint8"
-			},
-			{
-				"name": "_r",
-				"type": "bytes32"
-			},
-			{
-				"name": "_s",
 				"type": "bytes32"
 			}
 		],
-		"name": "introspectAccessToken",
-		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -220,6 +143,16 @@
 				"indexed": false,
 				"name": "access_token",
 				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "iat",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "exp",
+				"type": "uint256"
 			}
 		],
 		"name": "tokenRelease",
@@ -274,19 +207,122 @@
 				"indexed": false,
 				"name": "rqpAddress",
 				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "iat",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"name": "exp",
-				"type": "uint256"
 			}
 		],
 		"name": "introspectEvent",
 		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "condition",
+				"type": "string"
+			}
+		],
+		"name": "introspectFailed",
+		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_token",
+				"type": "bytes32"
+			}
+		],
+		"name": "checkIdentifierByToken",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_identifier",
+				"type": "bytes32"
+			},
+			{
+				"name": "_scope",
+				"type": "string"
+			}
+		],
+		"name": "checkScopeByIdentifier",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_token",
+				"type": "bytes32"
+			},
+			{
+				"name": "_v",
+				"type": "uint8"
+			},
+			{
+				"name": "_r",
+				"type": "bytes32"
+			},
+			{
+				"name": "_s",
+				"type": "bytes32"
+			}
+		],
+		"name": "introspectAccessToken",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "resourceOwner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "RM_Address",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]

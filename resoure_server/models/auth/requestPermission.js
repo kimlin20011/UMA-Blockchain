@@ -7,19 +7,12 @@ const Web3 = require('web3');
 const web3 = new Web3(Web3.givenProvider || gethWebsocketUrl);
 const unlockAccount = require('../unlock');
 
-module.exports = async function release_token(data) {
+module.exports = async function requestPermission(data) {
     let Auth_Abi = config.Auth.abi;
     //取得目前geth中第一個account
-    //let nowAccount =config.geth.account;
-    //let nowAccount =`0x6676be82eacd29fc91241c817b8414cc59e1e9d0`;
-    let _ticket = data.ticket;
-    let _claim = data.claim;
-    let nowAccount = data.account;
-    let password = data.password;
-    let Auth_Address = data.authAddress;
-
-    //let password = config.geth.password;
-    //let Auth_Address = fs.readFileSync('./Auth_address.txt').toString();
+    let nowAccount =config.geth.account;
+    let password = config.geth.password;
+    let Auth_Address = fs.readFileSync('./Auth_address.txt').toString();
     let Auth = new web3.eth.Contract(Auth_Abi,Auth_Address);
 
     // 解鎖
@@ -31,25 +24,30 @@ module.exports = async function release_token(data) {
 
     return new Promise((resolve, reject) => {
         let result ={};
+        console.log(data);
         Auth.methods
-            .releaseToken(_ticket,_claim)
+            .requestPermission(data.identifier,data.rqpAddress)
             .send({
                 from: nowAccount,
                 gas: 3000000
             })
             .on("receipt", function(receipt) {
-                result.msg_sender = receipt.events.tokenRelease.returnValues.msg_sender;
-                result.access_token = receipt.events.tokenRelease.returnValues.access_token;
+                result.identifier = receipt.events.ticket_generated.returnValues.identifier;
+                result.claim_hint = receipt.events.ticket_generated.returnValues.claim_hint;
+                result.ticket = receipt.events.ticket_generated.returnValues.ticket;
+                result.isParticipant = receipt.events.ticket_generated.returnValues.isParticipant;
+                result.msg_sender = receipt.events.ticket_generated.returnValues.msg_sender;
                 result.status = true;
+                result.authAddress = Auth_Address;
                 let result_event = JSON.stringify(result);
-                fs.writeFileSync('./releaseToken.json', result_event);
+                fs.writeFileSync('./tickets.json', result_event);
                 //送出驗證求取伺服器ip授權層序
                 //回傳值*/
                 //resolve(receipt.events.participantAdded.returnValues.newParticipant);
                 resolve(result);
             })
             .on("error", function(error) {
-                result.info =`智能合約releaseToken操作失敗`;
+                result.info =`智能合約generateTicket操作失敗`;
                 result.error= error.toString();
                 result.status = false;
                 console.log(result);

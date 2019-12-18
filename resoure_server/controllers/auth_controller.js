@@ -1,9 +1,9 @@
 const set_Policy = require('../models/auth/setPolicy');
 const set_Scopeindividual = require('../models/auth/setScopeIndividual');
-const generate_ticket = require('../models/auth/generateTicket');
-const release_token = require('../models/auth/releaseToken');
+const request_Permission = require('../models/auth/requestPermission');
+const request_AccessToken = require('../models/auth/requestAccessToken');
 const check_scopeByIdentifier = require('../models/auth/checkScopeByIdentifier');
-const introspect_accessToken = require('../models/auth/introspectAccessToken');
+const introspect_accessToken = require('../models/auth/introspectAccessToken_view');
 const set_ParticipantOfIdentifier = require('../models/auth/setParticipantOfIdentifier');
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
             ctx.body = error;
         }
     },
-    async generateTicket(ctx) {
+    async requestPermission(ctx) {
         let formData = ctx.request.body;
         let res = {};
         try{
@@ -38,19 +38,19 @@ module.exports = {
             // ctx.respond
             // ctx.body = err.message;
             // ctx.app.emit("error", err, ctx);
-            let generateTicket_result = await generate_ticket(formData);
-            res = generateTicket_result;
+            let requestPermission_result = await request_Permission(formData);
+            res = requestPermission_result;
             ctx.body = res;
         } catch(error) {
             ctx.body = error;
         }
     },
-    async releaseToken(ctx) {
+    async requestAccessToken(ctx) {
         let formData = ctx.request.body;
         let res = {};
         try{
-            let releaseToken_result = await release_token(formData);
-            res = releaseToken_result;
+            let requestAccessToken_result = await request_AccessToken(formData);
+            res = requestAccessToken_result;
             ctx.body = res;
         } catch(error) {
             ctx.body = error;

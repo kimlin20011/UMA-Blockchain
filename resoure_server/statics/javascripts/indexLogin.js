@@ -106,7 +106,8 @@ deploy_Authorization_contract_button.on('click', function () {
             $('#auth_address').html(`Auth address:<b style="color: mediumblue">${Auth_address}</b>`);
             doneTransactionStatus();
         }else{
-            log(`Auth合約部署失敗${result.info}`);
+            log(`Auth合約部署失敗`);
+            log(result);
             $('#auth_address').html(`Auth address:<b style="color: mediumblue">${Auth_address}</b>`);
             doneTransactionStatus();
         }

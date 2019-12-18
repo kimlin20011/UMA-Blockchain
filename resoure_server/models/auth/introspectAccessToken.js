@@ -44,7 +44,7 @@ module.exports = async function introspect_accessToken(data) {
                 result.isSignedAccountValid = true;
                 // console.log(result);
                 //  let result_event = JSON.stringify(result);
-                //   event introspectEvent(bytes32 indexed identifier,string scope,address rqpAddress,uint iat, uint exp);
+                //  event introspectEvent(bytes32 indexed identifier,string scope,address rqpAddress,uint iat, uint exp);
                 //   fs.writeFileSync('./releaseToken.json', result_event);
                 //送出驗證求取伺服器ip授權層序
                 //回傳值*/

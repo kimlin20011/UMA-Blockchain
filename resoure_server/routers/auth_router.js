@@ -5,8 +5,8 @@ module.exports = router
     .post(`/setPolicy`, auth.setPolicy)
     .post(`/setScopeindividual`, auth.setScopeIndividual)
     .post(`/setParticipantOfIdentifier`, auth.setParticipantOfIdentifier)
-    .post(`/generateTicket`, auth.generateTicket)
-    .post(`/releaseToken`, auth.releaseToken)
+    .post(`/requestPermission`, auth.requestPermission)
+    .post(`/requestAccessToken`, auth.requestAccessToken)
     .get(`/checkScopeByIdentifier`, auth.checkScopeByIdentifier)
     .get(`/introspectAccessToken`, auth.introspectAccessToken);
 

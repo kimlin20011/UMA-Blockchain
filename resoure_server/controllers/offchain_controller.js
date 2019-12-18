@@ -1,5 +1,5 @@
 const requestResource = require('../models/offchain/requestResource');
-const introspectAccessToken = require('../models/auth/introspectAccessToken');
+const introspectAccessToken = require('../models/auth/introspectAccessToken_view');
 
 module.exports = {
     async requestResource(ctx) {
@@ -15,14 +15,14 @@ module.exports = {
         // console.log(authData.token);
         if(authData.signature != null){
             try {
-                console.log(`introspectAccessToken`);
+                console.log(`request resource with token => introspectAccessToken`);
                 res =  await introspectAccessToken(authData);
                 ctx.body = res;
             }catch(error) {
                 ctx.body = error;
             }
         }else{
-            console.log(`get para`);
+            console.log(`request resource without token`);
             console.log(formData);
             try {
                 res =  await requestResource(formData);

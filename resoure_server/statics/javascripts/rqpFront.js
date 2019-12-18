@@ -7,9 +7,12 @@ let requestResourceButton = $('#requestResourceButton');
 
 
 
+
 let logger = $('#logger');
 //let nowAccount = "";
 let password = `nccutest`;
+let authInfo = {};
+let authFag = false;
 
 // 參考 https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
 //解譯url中的參數
@@ -37,7 +40,7 @@ function log(...inputs) {
 // 當按下登入按鍵時
 whoamiButton.on('click', async function () {
     nowAccount = whoami.val();
-    log(nowAccount, '目前選擇的以太帳戶')
+    log(nowAccount, 'Choosed Ethereum account')
 });
 
 // 載入使用者至 select tag
@@ -46,7 +49,7 @@ $.get('/blockchain/accounts', function (accounts) {
         whoami.append(`<option value="${account}">${account}</option>`)
     }
     nowAccount = whoami.val();
-    log(nowAccount, '目前選擇的以太帳戶')
+    log(nowAccount, 'Choosed Ethereum account')
 });
 
 
@@ -56,96 +59,103 @@ $.get('/db/getResourceName', function (results) {
         selectResourceName.append(`<option value="${info.name}">${info.name}</option>`)
     }
     nowName = selectResourceName.val();
-    log(nowName, '目前選擇的Resource')
+    log(nowName, 'Choosed resource')
 });
 
 
 // 當按下登入按鍵時
 selectNamButton.on('click', async function () {
     nowName = selectResourceName.val();
-    log(nowName, '目前選擇的Resource')
+    log(nowName, 'Choosed resource')
 });
 
 
 requestResourceButton.on('click', function () {
-    waitTransactionStatus();
+    //waitTransactionStatus();
     let res = {};
-    if (nowAccount!= null && nowName != null){
+    if (nowAccount != null && nowName != null && authFag == false) {
+        waitTransactionStatus();
         $.get('/offchain/requestResource', {
-            rqpAddress:nowAccount,
-            name:nowName,
+            rqpAddress: nowAccount,
+            name: nowName,
         }, function (result) {
-            if(result.status === true) {
+            if (result.status === true) {
                 res.hint = result.body.claim_hint;
                 res.ticket = result.body.ticket;
                 res.authAddress = result.body.authAddress;
                 res.pass = true;
-                log(`請求ticket成功`);
-                log(result);
-                try{
+                log(`request permission ticket succeed`);
+                //log(result);
+                try {
                     setClaim(res);
-                } catch(error) {
+                } catch (error) {
                     log(error);
                     doneTransactionStatus();
                 }
-
-            }else{
-                log(`請求ticket失敗`);
+            } else {
+                log(`request permission ticket failed`);
                 res.pass = false;
                 log(result);
-                alert(`請求ticket失敗`);
+                alert(`request permission ticket failed`);
                 doneTransactionStatus();
             }
         });
-    }else{
+    } else if (nowAccount != null && nowName != null && authFag == true) {
+        //alert(`request protected resource by access token`)
+        encryptToken(authInfo);
+    } else {
         res.pass = false;
-        log(`nowAccount:${nowAccount} \n nowName:${nowName} \n 尚未設定`)
+        log(`nowAccount:${nowAccount} \n nowName:${nowName} \n must be set`)
     }
 });
 
 
-function setClaim(res){
-    if (res.pass === true){
+function setClaim(res) {
+    if (res.pass === true) {
         let claimEntered = prompt(`Please enter your claim to get authorization \n hint: ${res.hint}`, `hint`);
         log(`claim:${claimEntered}`);
-        $.post('/auth/releaseToken', {
-            ticket:res.ticket,
-            claim:claimEntered,
-            account:nowAccount,
-            password:password,
-            authAddress:res.authAddress,
+        $.post('/auth/requestAccessToken', {
+            ticket: res.ticket,
+            claim: claimEntered,
+            account: nowAccount,
+            password: password,
+            authAddress: res.authAddress,
         }, function (result) {
-            if(result.status === true) {
-                log(`請求token成功`);
-                log(result);
-                encryptToken (result);
-
-            }else{
-                log(`請求token失敗`);
+            if (result.status === true) {
+                log(`request access token succeed`);
+                //alert(`request access token succeed`);
+                console.log(result);
+                $('#isAuth').html('<p style="color: blue">Already authorzied</p>');
+                //encryptToken (result);
+                authFag = true;
+                authInfo = result;
+                doneTransactionStatus();
+            } else {
+                log(`request access token failed`);
                 log(result);
                 doneTransactionStatus();
             }
         });
-    }else{
-        log(`上一步失敗`);
+    } else {
+        log(`request resource failed`);
     }
 
 }
 
 //request party 將token簽名
-function encryptToken (res){
+function encryptToken(res) {
     $.post('/rqp/encryptToken', {
-        token:res.access_token,
-        account:nowAccount,
-        password:password,
+        token: res.access_token,
+        account: nowAccount,
+        password: password,
     }, function (result) {
-        if(result.status === true) {
+        if (result.status === true) {
             result.token = res.access_token;
-            log(`簽名成功`);
-            log(`簽名：${result.signature}`);
+            log(`sign succeed`);
+            log(`signature${result.signature}`);
             requestByToken(result);
-        }else{
-            log(`簽名失敗`);
+        } else {
+            log(`sign failed`);
             log(result);
             doneTransactionStatus();
         }
@@ -153,10 +163,10 @@ function encryptToken (res){
 }
 
 
-function requestByToken(data){
+function requestByToken(data) {
     let formData = {};
-    formData.rqpAddress= nowAccount;
-    formData.name=nowName;
+    formData.rqpAddress = nowAccount;
+    formData.name = nowName;
     $.ajax({
         url: "/offchain/requestResource",
         type: 'GET',
@@ -166,67 +176,73 @@ function requestByToken(data){
             "authorization": data.signature,
             "token": data.token,
         },
-        error : function(err) {
+        error: function (err) {
             console.log('Error!', err);
-            doneTransactionStatus();
+            //doneTransactionStatus();
         },
-        success: function(data) {
+        success: function (data) {
             log('Success!');
             log('signature', data);
-            if (data.isSignedAccountValid === true){
-                let iat = convertUNIX_time(data.iat);
-                let exp = convertUNIX_time(data.exp);
+            //if (data.isSignedAccountValid === true) {
+            if (data === true) {
+                let tem = Math.floor(Math.random()*50);
+                let hum = Math.floor(Math.random()*50);
                 $('#isSignedAccountValid').html('<b style="color: blue">UMA Blockchain Authorization Status：TRUE</b>');
-                $('#iat').text(`permission time: ${iat}`);
-                $('#expire').text(`permission expire time: ${exp}`);
+                $('#tem').text(`Temperature: ${tem}`);
+                $('#hum').text(`Humidity: ${hum}`);
+            } else {
+                log(`token invaild`);
+                $('#isAuth').html('<p style="color: red">You have not been authorized.</p>');
+                authFag = false;
+                alert(`token invaild`);
             }
-            doneTransactionStatus();
+            //doneTransactionStatus();
         }
     });
 }
 
-function convertUNIX_time(unixTime){
-    let dt = new Date(unixTime*1000);
+function convertUNIX_time(unixTime) {
+    let dt = new Date(unixTime * 1000);
     let hr = dt.getHours();
     let m = "0" + dt.getMinutes();
     let s = "0" + dt.getSeconds();
-    return dt+':' +hr+ ':' + m.substr(-2) + ':' + s.substr(-2);
+    return dt + ':' + hr + ':' + m.substr(-2) + ':' + s.substr(-2);
 }
 
 // mouseover
-$(function() {
+$(function () {
     requestResourceButton.mouseover(function () {
-        requestResourceButton.attr('style', 'background-color: #608de2' );
+        requestResourceButton.attr('style', 'background-color: #608de2');
     });
     requestResourceButton.mouseout(function () {
-        requestResourceButton.attr('style', 'background-color: #4364a1' );
+        requestResourceButton.attr('style', 'background-color: #4364a1');
     });
 });
 
-$(function() {
+$(function () {
     whoamiButton.mouseover(function () {
-        whoamiButton.attr('style', 'background-color: #608de2' );
+        whoamiButton.attr('style', 'background-color: #608de2');
     });
     whoamiButton.mouseout(function () {
-        whoamiButton.attr('style', 'background-color: #4364a1' );
+        whoamiButton.attr('style', 'background-color: #4364a1');
     });
 });
 
 
-$(function() {
+$(function () {
     selectNamButton.mouseover(function () {
-        selectNamButton.attr('style', 'background-color: #608de2' );
+        selectNamButton.attr('style', 'background-color: #608de2');
     });
     selectNamButton.mouseout(function () {
-        selectNamButton.attr('style', 'background-color: #4364a1' );
+        selectNamButton.attr('style', 'background-color: #4364a1');
     });
 });
 
 
 function waitTransactionStatus() {
-    $('#accountStatus').html('帳戶狀態：<b style="color: blue">(等待區塊鏈交易驗證中...)</b>')
+    $('#accountStatus').html('Account status：<b style="color: blue">(Mining processing...)</b>')
 }
 
 function doneTransactionStatus() {
-    $('#accountStatus').text('帳戶狀態：')
+    $('#accountStatus').text('Account status：')
 }

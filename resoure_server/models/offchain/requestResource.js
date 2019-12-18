@@ -29,7 +29,7 @@ module.exports = async function requestResource(data) {
                 result.identifier = rows[0].identifier;
                 result.rqpAddress = data.rqpAddress;
                 request.post({
-                    url:"http://localhost:3001/auth/generateTicket",
+                    url:"http://localhost:3001/auth/requestPermission",
                     body: result,
                     json: true,
                 }, function(err,httpResponse,body){
