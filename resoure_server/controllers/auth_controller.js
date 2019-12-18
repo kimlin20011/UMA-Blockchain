@@ -33,6 +33,11 @@ module.exports = {
         let formData = ctx.request.body;
         let res = {};
         try{
+            // 為授權
+            // ctx.status = err.status || 401;
+            // ctx.respond
+            // ctx.body = err.message;
+            // ctx.app.emit("error", err, ctx);
             let generateTicket_result = await generate_ticket(formData);
             res = generateTicket_result;
             ctx.body = res;
