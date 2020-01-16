@@ -185,8 +185,8 @@ function requestByToken(data) {
             log('signature', data);
             //if (data.isSignedAccountValid === true) {
             if (data === true) {
-                let tem = Math.floor(Math.random()*50);
-                let hum = Math.floor(Math.random()*50);
+                let tem = 25+Math.floor(Math.random()*5);
+                let hum = 50+Math.floor(Math.random()*5);
                 $('#isSignedAccountValid').html('<b style="color: blue">UMA Blockchain Authorization Status：TRUE</b>');
                 $('#tem').text(`Temperature: ${tem}`);
                 $('#hum').text(`Humidity: ${hum}`);
