@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Request Party's Client</title>
+    <title>Blockchain_UMA Resource Policy</title>
 
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="stylesheets/style.css">
@@ -23,8 +23,9 @@
         }
 
         body {
-            background-color: purple;
+            background-color: green;
         }
+
 
         .left-item {
             flex: 1;
@@ -48,7 +49,7 @@
     <img class="headimg" src="https://i.imgur.com/GlBja5L.png"/>
     <img class="headimg" src="https://i.imgur.com/gX1VYt0.png"/>
     <img class="headimg" src="https://i.imgur.com/noDq28C.png"/>
-    <h1>Request Party's Client Page</h1>
+    <h1>Blockchain_UMA Resource Policy</h1>
 </div>
 
 <div class="flex">
@@ -58,24 +59,25 @@
                 <img src="https://i.imgur.com/vUW22sE.png"/>
             </div>
             <div class="topic-item">
-                <h2>Request Party</h2>
+                <h2>Policy</h2>
             </div>
         </div>
 
-        <br>
-
+        <p id="Identifier"  style="color: darkgreen; text-align: center;">identifier:</p>
+        <p id = "accountStatus" style="color: green; text-align: center;">帳戶狀態：</p>
         <div class="left-flex">
             <div class="left-item">
                 <div class="left-col-2">
-                    <div class="title"><br>Geth Login<br></div>
+                    <div class="title"><br>Set policy<br></div>
                 </div>
             </div>
             <div class="left-item">
                 <div class="right-col-2">
-                    <h5 id="accountStatus" style="color: red">Account status：</h5>
-                    <h5>Select Geth Account</h5>
-                    <select id="whoami" ></select><br>
-                    <button id="whoamiButton">login</button>
+                    <p>Claim</p>
+                    <input id="claim_input" type="text" placeholder="claim ex:123@gmail" />
+                    <p>Hint</p>
+                    <input id="hint_input" type="text" placeholder="hint ex:email" /> <br/><br/>
+                    <button id="policyClaimButton">set policy</button> <p id="setPolicyStatus"></p>
                 </div>
             </div>
         </div>
@@ -86,31 +88,50 @@
         <div class="left-flex">
             <div class="left-item">
                 <div class="left-col-2">
-                    <div class="title" style="margin-top: -90px;"><br>Access Resources<br></div>
+                    <div class="title"><br>Add Request Party<br></div>
                 </div>
             </div>
             <div class="left-item">
                 <div class="right-col-2">
-                    <select id="selectResourceName" ></select>
-                    <button id="selectNamButton">select</button><br>
-                    <p id="isAuth" style="color: red">You haven't been authorized.</p>
-                    <button id="requestResourceButton">request resources</button>
-                    
+                    <p>Request Party Address</p>
+                    <input id="rqpAddress_input" type="text" placeholder="address ex:0xdfbc7a1f5f867a9fd73d9fbe9da2b5b34ea67d95" />
+                    <button id="rqpAddressButton">add request party</button> <p id="addRqPStatus"></p>
                 </div>
             </div>
         </div>
 
-
         <br>
 
         <div class="left-flex">
-            <div class="table" style="margin: 0px auto;">
-                <h3 id="isSignedAccountValid" style="color: red; font-size: 25px;">UMA Blockchain Authorization Status：FALSE</h3>
-                <p id="tem" style="font-size: 25px; font-weight: bolder;">Temperature:</p>
-                <p id="hum" style="font-size: 25px; font-weight: bolder;">Humidity:</p>
+            <div class="table"  style="margin: 0px auto;">
+                <table id="policyTable" border= 3 bordercolor="#a0c6e5" width="95%" style="border-collapse:collapse" >
+                    <caption><b>Exist Policy</b></caption>
+                    <br>
+                    <thead>
+                    <tr>
+                        <th>Identifier</th>
+                        <th>Claim</th>
+                        <th>Hint</th>
+                    <tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table><br>
+                <table id="rqpTable" border= 3 bordercolor="#a0c6e5" width="95%" style="border-collapse:collapse" >
+                    <caption><b>Exist Policy</b></caption>
+                    <br>
+                    <thead>
+                    <tr>
+                        <th>Request Party</th>
+                    <tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table><br>
+                <button id="refreshPolicyButton" style="margin-bottom: 20px; margin-left: 20px;">refresh</button>
+
             </div>
         </div>
-
 
         <br>
 
@@ -144,7 +165,7 @@
 
 
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
-<script src="javascripts/rqpFront.js"></script>
+<script src="javascripts/policyFront.js"></script>
 
 <!--
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

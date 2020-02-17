@@ -63,12 +63,13 @@
             </div>
         </div>
 
-        <p id="Identifier"  style="color: darkgreen; text-align: center;">identifier:</p>
-        <p id = "accountStatus" style="color: green; text-align: center;">帳戶狀態：</p>
+        <p id="Identifier"  style="color: darkgreen; text-align: left; margin-left: 250px;">identifier:</p>
+        <p id = "accountStatus" style="color: green; text-align: left; margin-left: 250px;">帳戶狀態：</p>
+        <br>
         <div class="left-flex">
             <div class="left-item">
                 <div class="left-col-2">
-                    <div class="title"><br>Set policy<br></div>
+                    <div class="title"><br>Set Policy<br></div>
                 </div>
             </div>
             <div class="left-item">
@@ -87,12 +88,12 @@
 
         <div class="left-flex">
             <div class="left-item">
-                <div class="left-col-2">
+                <div class="left-col-2" style="margin-top: 30px;">
                     <div class="title"><br>Add Request Party<br></div>
                 </div>
             </div>
             <div class="left-item">
-                <div class="right-col-2">
+                <div class="right-col-2" style="margin-top: 80px;">
                     <p>Request Party Address</p>
                     <input id="rqpAddress_input" type="text" placeholder="address ex:0xdfbc7a1f5f867a9fd73d9fbe9da2b5b34ea67d95" />
                     <button id="rqpAddressButton">add request party</button> <p id="addRqPStatus"></p>
@@ -104,31 +105,31 @@
 
         <div class="left-flex">
             <div class="table"  style="margin: 0px auto;">
-                <table id="policyTable" border= 3 bordercolor="#a0c6e5" width="95%" style="border-collapse:collapse" >
-                    <caption><b>Exist Policy</b></caption>
+                <table id="policyTable" border= 3 bordercolor="#a0c6e5" width="95%" style="border-collapse:collapse;">
+                    <caption style="font-size: 25px; margin-bottom: 20px;"><b>Exist Policy</b></caption>
                     <br>
                     <thead>
                     <tr>
-                        <th>Identifier</th>
-                        <th>Claim</th>
-                        <th>Hint</th>
+                        <th style="font-size: 20px;">Identifier</th>
+                        <th style="font-size: 20px;">Claim</th>
+                        <th style="font-size: 20px;">Hint</th>
                     <tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table><br>
                 <table id="rqpTable" border= 3 bordercolor="#a0c6e5" width="95%" style="border-collapse:collapse" >
-                    <caption><b>Exist Policy</b></caption>
+                    <caption style="font-size: 25px; margin-bottom: 20px;"><b>Exist Policy</b></caption>
                     <br>
                     <thead>
                     <tr>
-                        <th>Request Party</th>
+                        <th style="font-size: 20px;">Request Party</th>
                     <tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table><br>
-                <button id="refreshPolicyButton" style="margin-bottom: 20px; margin-left: 20px;">refresh</button>
+                <button id="refreshPolicyButton" style="margin-bottom: 20px; margin-left: 50px;">refresh</button>
 
             </div>
         </div>
