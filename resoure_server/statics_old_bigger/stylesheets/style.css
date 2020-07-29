@@ -9,6 +9,7 @@ body {
 
 img {
   margin-left: 200px;
+  margin-top: 40px;
 }
 
 
@@ -44,12 +45,13 @@ a {
 
 h1 {
   color: white;
+  font-size: 60px;
 }
 
 h2 {
   text-align: left;
-  font-size: 30px;
-  margin-left: -60px;
+  font-size: 50px;
+  margin-left: -150px;
 }
 
 button {
@@ -63,8 +65,9 @@ button {
   overflow: auto;
 }
 
+
 .title {
-  font-size: 20px;
+  font-size: 40px;
   font-weight: 700;
   line-height: 40px;
   text-align: right;
@@ -117,7 +120,12 @@ button {
 
 input {
   padding: 5px 10px 5px 10px;
-  width: 150px;
+  width: 200px;
+  font-size: 20px;
+}
+
+p {
+  font-size: 25px;
 }
 
 
@@ -139,8 +147,13 @@ select {
   margin-bottom: 10px;
 }
 
+
 h5 {
-  font-size: 16px;
+  font-size: 25px;
+}
+
+button {
+  font-size: 20px;
 }
 
 .left-flex-1 {

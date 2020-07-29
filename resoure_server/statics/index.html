@@ -63,14 +63,14 @@
 			<div class="left-flex">
 				<div class="left-item">
 						<div class="left-col-2">
-					<div class="title" style="margin-top: -20px;"><br>Geth Login<br></div>
+					<div class="title"><br>Geth Login<br></div>
 					</div>
 				</div>
 				<div class="left-item">
 						<div class="right-col-2">
-							<h5 id="accountStatus" style="color: red">Account Status：</h5>
+							<h5 id="accountStatus" style="color: red">帳戶狀態：</h5>
 							<h5>Select Geth Account</h5>
-							<select id="whoami" ></select>
+							<select id="whoami" ></select><br>
 							<button id="whoamiButton">login</button>
 					</div>
 				</div>
@@ -81,31 +81,29 @@
 
 			<div class="left-flex">
 				<div class="left-item">
-					<div class="left-col-2" style="margin-top: 250px;">
-						<div class="title"><br>Contract Management<br></div>
+					<div class="left-col-2">
+						<div class="title"><br>Contract management<br></div>
 					</div>
 				</div>
 				<div class="left-item">
 					<div class="right-col-2">
-						<h5 id="contractStatus" style="color: red; font-size: 20px;">You must enter or deploy contract<br>(if you haven't deployed) first.</h5>
-						<h5 style="text-decoration:underline;">Step 1. Resource Management Contract</h5>
+						<h5 id="contractStatus" style="color: red">You must enter or deploy contract<br>(if you haven't deployed) first.</h5>
+						<h5>Step 1. Resource Management Contract</h5>
 						<input id="RM_contract_address" type="text" placeholder="RM contract address" />
 						<button type="button" id="RM_contract_address_button">confirm</button><br>
-						<br>
-						<!-- <hr size="2px" width="100%"> -->
-						or
+						<hr size="2px" align="center" width="100%">
+						<h5>or</h5>
 						<button  type="button" id="deploy_RM_contract_button">deploy RM </button>
-						<p id ="rm_address" style="word-break: break-all;">RM address: </p>
-						
-						<h5 style="text-decoration:underline;">Step 2. Authorization Contract</h5>
+						<p id ="rm_address">RM address:</p>
+						<br>
+						<h5>Step 2. Authorization Contract</h5>
 						<input id="Authorization_contract_address" type="text" placeholder="Authorization contract address" />
 						<button type="button" id="Authorization_contract_address_button">confirm</button><br>
-						<br>
-						<!-- <hr size="2px" width="100%"> -->
-						or
+						<hr size="2px" align="center" width="100%">
+						<h5>or</h5>
 						<input id="RM_contract_address_of_Authorization" type="text" placeholder="RM contract address" />
 						<button type="button" id="deploy_Authorization_contract_button">deploy Authorization </button>
-						<p id="auth_address" style="word-break: break-all;">Auth address: </p>
+						<p id="auth_address">Auth address:</p>
 					</div>
 				</div>
 			</div>
@@ -113,24 +111,18 @@
 			<br>
 
 
-			<!--<div class="left-flex">
-				
+			<div class="left-flex">
 				<div class="left-item">
-					<div class="left-col-2" style="margin-top: 10px;">
+					<div class="left-col-2">
 						<div class="title"><br>Change Page<br></div>
 					</div>
 				</div>
 				<div class="left-item">
 					<div class="right-col-2">
-						-->
-					<div style="margin: 20px;">
-						<button id="changeToRMButton" onclick="javascript:location.href=`resource.html?RM_address=${RM_address}&Auth_address=${Auth_address}&nowAccount=${nowAccount}&password=${password}`">Change to resource management page</button>
+						<button  id="changeToRMButton" onclick="javascript:location.href=`resource.html?RM_address=${RM_address}&Auth_address=${Auth_address}&nowAccount=${nowAccount}&password=${password}`">Change to resource management page</button>
 					</div>
-						<!--
-						</div>
 				</div>
-				
-			</div>-->
+			</div>
 
 		</div>
 
