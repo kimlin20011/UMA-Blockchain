@@ -29,7 +29,7 @@ module.exports = async function requestResource(data) {
                 result.identifier = rows[0].identifier;
                 result.rqpAddress = data.rqpAddress;
                 request.post({
-                    url:"http://localhost:3001/auth/requestPermission",
+                    url:"http://localhost:3002/auth/requestPermission",
                     body: result,
                     json: true,
                 }, function(err,httpResponse,body){
@@ -37,7 +37,10 @@ module.exports = async function requestResource(data) {
                         reject(err);
                     }
                     result.status = body.status;
+                    //result.status = true;
                     result.body = body;
+                    //console.log(`hyy`)
+                    //console.log(body)
                     resolve(result);
                 });
             }

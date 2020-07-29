@@ -22,9 +22,9 @@ module.exports ={
         bytecode: Auth_Bytecode,
     },
     geth: {
-        account: `0xEE860C9a2D17121A09222f69E1dc83a1351B90eb`,
+        account: `0x2cf0622bdcdb80a295669c1c1548b0601ec2c41b`,
         //account: `0xdfbc7a1f5f867a9fd73d9fbe9da2b5b34ea67d95`,
-        rqp_account: `0xEE860C9a2D17121A09222f69E1dc83a1351B90eb`,
+        rqp_account: `0x2cf0622bdcdb80a295669c1c1548b0601ec2c41b`,
         //暫時不用
         password: process.env.password,
         gethWebsocketUrl:`ws://localhost:8546`,
