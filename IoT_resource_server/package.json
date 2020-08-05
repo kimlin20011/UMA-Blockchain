@@ -1,0 +1,30 @@
+{
+  "name": "resoure_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kimlin20011/UMA-Blockchain.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kimlin20011/UMA-Blockchain/issues"
+  },
+  "homepage": "https://github.com/kimlin20011/UMA-Blockchain#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "eth-crypto": "^1.3.4",
+    "keythereum": "^1.0.4",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "web3": "^1.0.0-beta.37"
+  }
+}
